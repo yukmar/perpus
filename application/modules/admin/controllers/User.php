@@ -50,7 +50,7 @@ class User extends CI_Controller
 		$check_tipeuser = null;
 
 		$tipe_user = $this->input->get('t');
-		$iduser = $this->input->post('tnip');
+		$iduser = $this->input->post('txtiduser');
 		$nama = $this->input->post('txtnama');
 		$password = $this->input->post('txtpass');
 
@@ -64,21 +64,21 @@ class User extends CI_Controller
 
 		var_dump($iduser);
 
-		// switch ($tipe_user) {
-		// 	case '1':
-		// 	$this->petugas_m->update($iduser, $newdata);
-		// 	redirect(site_url('manage-user'));
-		// 		break;
+		switch ($tipe_user) {
+			case '1':
+				$this->petugas_m->update($iduser, $newdata);
+				redirect(site_url('manage-user'));
+				break;
 			
-		// 	case '2':
-		// 	$this->siswa_m->update($iduser, $newdata);
-		// 	redirect(site_url('manage-user'));
-		// 		break;
+			case '2':
+				$this->siswa_m->update($iduser, $newdata);
+				redirect(site_url('manage-user'));
+				break;
 
-		// 	default:
-		// 		# code...
-		// 		break;
-		// }
+			default:
+				redirect(site_url('manage-user'));
+				break;
+		}
 
 	}
 

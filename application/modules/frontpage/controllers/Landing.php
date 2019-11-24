@@ -22,14 +22,12 @@ class Landing extends CI_Controller
 		$password = $this->input->post('txtpass');
 		// check id petugas
 		if ($this->petugas_m->verify($iduser, $password)) {
-			$this->page = 'admin';
+			$this->load->view('Petugas_view');
 		} elseif ($this->siswa_m->verify($iduser, $password)) {
-			$this->page = 'siswa';
+			$this->load->view('Siswa_view');
 		} else {
-			$this->page = 'landing';
+			$this->index();
 		}
-
-		print $this->page;
 	}
 
 	public function registrasi()
