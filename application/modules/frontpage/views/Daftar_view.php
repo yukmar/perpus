@@ -12,7 +12,7 @@
 		echo $status_regis;
 	}
 	?>
-	<form action="<?=site_url('registrasi')?>" method="post">
+	<form action="<?=site_url('daftar')?>" method="post">
 		<table>
 			<caption>REGISTRASI</caption>
 			<tbody>
@@ -22,19 +22,19 @@
 				<tr>
 					<td>NISN: </td>
 					<td>
-						<input type="textbox" name="regis_nisn"/>
+						<input type="textbox" name="daftar_nisn"/>
 					</td>
 				</tr>
 				<tr>
 					<td>Nama: </td>
 					<td>
-						<input type="textbox" name="regis_nama" />
+						<input type="textbox" name="daftar_nama" />
 					</td>
 				</tr>
 				<tr>
 					<td>Password: </td>
 					<td>
-						<input type="password" name="regis_pass"/>
+						<input type="password" name="daftar_pass"/>
 					</td>
 				</tr>
 				<tr>

@@ -55,7 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 // frontpage
 $route['login'] = 'frontpage/landing/login';
-$route['registrasi'] = 'frontpage/landing/registrasi';
+$route['daftar'] = 'frontpage/landing/daftar';
 $route['testing'] = 'frontpage/landing/testing';
 
 // katalog

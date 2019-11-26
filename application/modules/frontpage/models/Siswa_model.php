@@ -63,7 +63,7 @@ class Siswa_model extends CI_Model
 
 	public function verify($nisn, $password)
 	{
-		$existing_password = $this->search('nisn', $nisn, 'password');
+		$existing_password = $this->search($this->field_nisn, $nisn, $this->field_password);
 		if ($existing_password) {
 			if (password_verify($password, $existing_password)) {
 				return true;
@@ -167,7 +167,7 @@ class Siswa_model extends CI_Model
 
 		// $result = $this->db->set($data)->get_compiled_insert($this->table);
 		$result = $this->db->insert($this->table, $data);
-		return $result;
+		return $this->password;
 	}
 	// end query
 }
