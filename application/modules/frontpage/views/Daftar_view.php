@@ -7,31 +7,6 @@
 	<link rel="stylesheet" href="">
 </head>
 <body>
-	<form action="login" method="post">
-		<table>
-			<caption>LOGIN</caption>
-			<tbody>
-				<tr>
-					<td>id:</td>
-					<td>
-						<input type="textbox" name="txtid"/>
-					</td>
-				</tr>
-				<tr>
-					<td>password:</td>
-					<td>
-						<input type="password" name="txtpass">
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="submit">login</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-	<br/>
 	<?php
 	if (isset($status_regis)) {
 		echo $status_regis;
@@ -70,5 +45,6 @@
 			</tbody>
 		</table>
 	</form>
+	<a href="<?=site_url()?>" title="">Back</a>
 </body>
 </html>

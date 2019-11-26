@@ -13,7 +13,18 @@ class Landing extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('login_view');
+		$page = $this->input->get('page');
+		switch ($page) {
+			case 'login':
+				$this->load->view('Login_view');
+				break;
+			case 'daftar':
+				$this->load->view('Daftar_view');
+				break;
+			default:
+				$this->load->view('Login_view');
+				break;
+		}
 	}
 
 	public function login()
