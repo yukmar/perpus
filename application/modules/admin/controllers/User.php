@@ -106,5 +106,4 @@ class User extends CI_Controller
 		var_dump($tipe, $iduser);
 	}
 
-
 }

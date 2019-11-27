@@ -72,5 +72,20 @@ class Penerbit_model extends CI_Model
 		}
 		return $data;
 	}
+
+	private function search_data($field, $value, $returnfield = null)
+	{
+		$result_set = $this->db->get_where($this->table, array($field => $value))->result();
+		if ($result_set) {
+			foreach ($result_set as $key => $value) {
+				$this->id = $value->{$this->field_id};
+				$this->nama = $value->{$this->field_nama};
+				$this->kota = $value->{$this->field_kota};
+			}
+			return $this->reconstruct($returnfield);
+		} else {
+			return null;
+		}
+	}
 	// end query
 }

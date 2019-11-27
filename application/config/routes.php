@@ -56,13 +56,16 @@ $route['translate_uri_dashes'] = FALSE;
 // frontpage
 $route['login'] = 'frontpage/landing/login';
 $route['daftar'] = 'frontpage/landing/daftar';
-$route['testing'] = 'frontpage/landing/testing';
+$route['testing'] = 'admin/buku/testing';
 
 // katalog
 $route['katalog'] = 'katalog/katalog';
 
-// admin
+// admin manage user
 $route['manage-user'] = 'admin/user';
 $route['manage-user/add'] = 'admin/user/create';
 $route['manage-user/edit'] = 'admin/user/update';
 $route['manage-user/delete'] = 'admin/user/delete';
+
+// admin manage books
+$route['manage-buku'] = 'admin/buku';

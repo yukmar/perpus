@@ -2,7 +2,7 @@
 /**
  * 
  */
-class Detailbuku extends CI_Model
+class Detailbuku_model extends CI_Model
 {
 	// variabel menampung nama tabel database
 	private $table = 'detail_buku';
@@ -63,6 +63,65 @@ class Detailbuku extends CI_Model
 		}
 	}
 
+	// start represent
+	public function get_all()
+	{
+		return $this->all();
+	}
+
+	public function search($fieldalias, $search_value, $returnfieldalias)
+	{
+		$field = null;
+		$returnfield = null;
+
+		switch ($fieldalias) {
+			case $this->newprop_isbn:
+				$field = $this->field_isbn;
+				break;
+
+			case $this->newprop_idpenerbit:
+				$field = $this->field_idpenerbit;
+				break;
+
+			case $this->newprop_judul:
+				$field = $this->field_judul;
+				break;
+
+			case $this->newprop_pengarang:
+				$field = $this->field_pengarang;
+				break;
+			
+			default:
+				return null;
+				break;
+		}
+
+		switch ($returnfieldalias) {
+			case $this->newprop_isbn:
+				$returnfield = $this->field_isbn;
+				break;
+
+			case $this->newprop_idpenerbit:
+				$returnfield = $this->field_idpenerbit;
+				break;
+
+			case $this->newprop_judul:
+				$returnfield = $this->field_judul;
+				break;
+
+			case $this->newprop_pengarang:
+				$returnfield = $this->field_pengarang;
+				break;
+
+			default:
+				$returnfield = null;
+				break;
+		}
+
+		return $this->search_data($field, $search_value, $returnfield);
+	}
+	// end represent
+
 	// start query
 	
 	/**
@@ -81,6 +140,22 @@ class Detailbuku extends CI_Model
 			$data[] = $this->reconstruct();
 		}
 		return $data;
+	}
+
+	private function search_data($field, $value, $returnfield = null)
+	{
+		$result_set = $this->db->get_where($this->table, array($field => $value))->result();
+		if ($result_set) {
+			foreach ($result_set as $key => $value) {
+				$this->isbn = $value->{$this->field_isbn};
+				$this->idpenerbit = $value->{$this->field_idpenerbit};
+				$this->judul = $value->{$this->field_judul};
+				$this->pengarang = $value->{$this->field_pengarang};
+			}
+			return $this->reconstruct($returnfield);
+		} else {
+			return null;
+		}
 	}
 	// end query
 }
