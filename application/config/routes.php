@@ -69,7 +69,8 @@ $route['manage-user/delete'] = 'admin/user/delete';
 
 // admin manage data books
 $route['manage-buku'] = 'admin/buku';
-$route['manage-buku/add'] = 'admin/buku/add';
+$route['manage-buku/addinfo'] = 'admin/buku/addinfo';
+$route['manage-buku/additem'] = 'admin/buku/additem';
 $route['manage-buku/edit'] = 'admin/buku/update';
 $route['manage-buku/delete'] = 'admin/buku/delete';
 

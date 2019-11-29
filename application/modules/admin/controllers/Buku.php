@@ -27,7 +27,7 @@ class Buku extends CI_Controller
 		$newdata['isbn'] = $this->input->post('txtisbn');
 		$newdata['judul'] = $this->input->post('txtjudul');
 		$newdata['pengarang'] = $this->input->post('txtpengarang');
-		$newdata['penerbit'] = $this->input->post('opsipenerbit');
+		$newdata['idpenerbit'] = $this->input->post('opsipenerbit');
 		// var_dump($isbn, $judul, $pengarang, $penerbit);
 		$result = $this->detbuku_m->insert($newdata);
 		if ($result) {
@@ -37,9 +37,9 @@ class Buku extends CI_Controller
 		}
 	}
 
-	public function addintem($value='')
+	public function addintem()
 	{
-		# code...
+		echo "additembuku";
 	}
 
 	public function update()

@@ -72,7 +72,7 @@
 						<button type="submit">create</button>
 					</td>
 					<td>
-						<button>reset</button>
+						<button type="reset">reset</button>
 					</td>
 				</tr>
 			</tbody>
@@ -166,6 +166,7 @@
 			event.target.querySelector('caption').innerHTML = 'CREATE '+title[1];
 			event.target.childNodes[1].children[1].children[3].style.display = 'none';
 			event.target.action = "<?=site_url('manage-user/add/?t=')?>"+t;
+			event.target.querySelector('button').innerHTML = 'create';
 		}
 	</script>
 </body>

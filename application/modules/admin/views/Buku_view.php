@@ -8,7 +8,7 @@
 </head>
 <body>
 	<?=rand(9878798798987, 999999999999)?>
-	<form action="<?=site_url('manage-buku/addinfo')?>" method="post" id="form-infobuku">
+	<form action="<?=site_url('manage-buku/addinfo')?>" method="post" id="form-infobuku" onreset="resetforminfo()">
 		<table>
 			<caption>Tambah Info Buku</caption>
 			<tbody>
@@ -45,6 +45,9 @@
 				<tr>
 					<td>
 						<button type="submit">tambah</button>
+					</td>
+					<td>
+						<button type="reset">reset</button>
 					</td>
 				</tr>
 			</tbody>
@@ -118,6 +121,14 @@
 			tjudul.value = judul;
 			tpengarang.value = pengarang;
 			tpenerbit.value = no;
+		}
+
+		function resetforminfo() {
+			var caption = event.target.querySelector('caption');
+			var title = event.target.querySelector('caption').innerHTML.split(" ");
+			event.target.querySelector('caption').innerHTML = 'CREATE '+title[1];
+			event.target.action = "<?=site_url('manage-buku/addinfo')?>";
+			event.target.querySelector('button').innerHTML = 'tambah';
 		}
 	</script>
 </body>
