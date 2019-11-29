@@ -62,8 +62,6 @@ class User extends CI_Controller
 			$newdata = array_merge($newdata, array('password' => $password));
 		}
 
-		var_dump($iduser);
-
 		switch ($tipe_user) {
 			case '1':
 				$this->petugas_m->update($iduser, $newdata);

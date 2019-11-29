@@ -133,13 +133,13 @@
 		var tnip = document.getElementById('tnip');
 		var tnama_petugas = document.getElementById('tnama_petugas');
 
-		function editsiswa(u) {
+		function editsiswa() {
 			var selected_row = event.target.closest('tr');
 			var nisn = selected_row.children[1].innerHTML;
 			var nama = selected_row.children[2].innerHTML;
 
 			form_siswa.firstChild.nextSibling.caption.innerHTML = 'EDIT SISWA';
-			form_siswa.action = "<?=site_url('manage-user/edit/?t=2&u=')?>" + u;
+			form_siswa.action = "<?=site_url('manage-user/edit/?t=2')?>";
 			tnisn.value = nisn;
 			tnama_siswa.value = nama;
 			form_siswa.querySelector('button').innerHTML = 'edit';
@@ -147,15 +147,12 @@
 			console.log(form_siswa.childNodes[1].children[1].children[3]);
 		}
 
-		function editpetugas(u) {
+		function editpetugas() {
 			var selected_row = event.target.closest('tr');
 			var nip = selected_row.children[1].innerHTML;
 			var nama = selected_row.children[2].innerHTML;
-			var nipnya = u.toString();
 			form_petugas.firstChild.nextSibling.caption.innerHTML = 'EDIT SISWA';
-			console.log(nipnya);
-			// console.log("test");
-			form_petugas.action = "<?=site_url('manage-user/edit/?t=1&u=')?>" + u;
+			form_petugas.action = "<?=site_url('manage-user/edit/?t=1')?>";
 			tnip.value = nip;
 			tnama_petugas.value = nama;
 			form_petugas.querySelector('button').innerHTML = 'edit';

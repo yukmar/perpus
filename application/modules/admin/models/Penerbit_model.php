@@ -55,6 +55,77 @@ class Penerbit_model extends CI_Model
 		}
 	}
 
+	// start represent
+	public function get_all()
+	{
+		return $this->all();
+	}
+
+	public function search($fieldalias, $search_value, $returnfieldalias)
+	{
+		$field = null;
+		$returnfield = null;
+
+		switch ($fieldalias) {
+			case $this->newprop_id:
+				$field = $this->field_id;
+				break;
+			case $this->newprop_nama:
+				$field = $this->field_nama;
+				break;
+				case $this->newprop_kota:
+				$field = $this->field_kota;
+				break;
+			
+			default:
+				return null;
+				break;
+		}
+
+		switch ($returnfieldalias) {
+			case $this->newprop_id:
+				$returnfield = $this->field_id;
+				break;
+			case $this->newprop_nama:
+				$returnfield = $this->field_nama;
+				break;
+			case $this->newprop_kota:
+				$returnfield = $this->field_kota;
+				break;
+			
+			default:
+				$returnfield = null;
+				break;
+		}
+
+		return $this->search_data($field, $search_value, $returnfield);
+	}
+
+	public function insert($nama, $kota)
+	{
+		$this->nama = $nama;
+		$this->kota = $kota;
+
+		return $this->insert_data();
+	}
+
+	public function update($id, $newdata)
+	{
+		$this->id = $id;
+		$prepdata = array(
+			$this->field_nama => $newdata[$this->newprop_nama],
+			$this->field_kota => $newdata[$this->newprop_kota]
+		);
+		return $this->update_data($prepdata);
+	}
+
+	public function delete($id)
+	{
+		$this->id = $id;
+		return $this->delete_data();
+	}
+	// end represent
+	
 	// start query
 	/**
 	 * mengambil semua data dari tabel buku dengan nama atribut/field yang telah diubah
@@ -86,6 +157,25 @@ class Penerbit_model extends CI_Model
 		} else {
 			return null;
 		}
+	}
+
+	private function insert_data()
+	{
+		$newdata = array(
+			$this->field_nama => $this->nama,
+			$this->field_kota => $this->kota
+		);
+		return $this->db->insert($this->table, $newdata);
+	}
+
+	private function update_data($newdata)
+	{
+		return $this->db->update($this->table, $newdata, array($this->field_id => $this->id));
+	}
+
+	private function delete_data()
+	{
+		return $this->db->delete($this->table, array($this->field_id => $this->id));
 	}
 	// end query
 }

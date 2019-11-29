@@ -199,10 +199,7 @@ class Siswa_model extends CI_Model
 			$this->field_nama => $this->nama,
 			$this->field_password => $this->password
 		);
-
-		// $result = $this->db->set($data)->get_compiled_insert($this->table);
-		$result = $this->db->insert($this->table, $data);
-		return $result;
+		return $this->db->insert($this->table, $data);
 	}
 
 	private function update_data($newdata)
@@ -212,10 +209,6 @@ class Siswa_model extends CI_Model
 
 	private function delete_data()
 	{
-		$data = array(
-			$this->field_nisn => $this->nisn
-		);
-
 		return $this->db->delete($this->table, array($this->field_nisn => $this->nisn));
 
 	}

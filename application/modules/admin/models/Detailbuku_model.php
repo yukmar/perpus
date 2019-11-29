@@ -28,6 +28,10 @@ class Detailbuku_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model(array(
+			'Buku_model' => 'buku_m',
+			'Penerbit_model' => 'penerbit_m'
+		));
 	}
 
 	/**
@@ -66,7 +70,13 @@ class Detailbuku_model extends CI_Model
 	// start represent
 	public function get_all()
 	{
-		return $this->all();
+		$lists = $this->all();
+		foreach ($lists as $key => $value) {
+			$lists[$key]['total_eksemplar'] = $this->buku_m->count_eksemplar($value['isbn']);
+			$lists[$key]['penerbit'] = $this->penerbit_m->search('id', $value[$this->newprop_idpenerbit], 'nama');
+		}
+
+		return $lists;
 	}
 
 	public function search($fieldalias, $search_value, $returnfieldalias)
@@ -120,6 +130,33 @@ class Detailbuku_model extends CI_Model
 
 		return $this->search_data($field, $search_value, $returnfield);
 	}
+
+	public function insert($newdata)
+	{
+		$this->isbn = $newdata['isbn'];
+		$this->judul = $newdata['judul'];
+		$this->pengarang = $newdata['pengarang'];
+		$this->idpenerbit = $newdata['idpenerbit'];
+		return $this->insert_data();
+	}
+
+	public function update($isbn, $newdata)
+	{
+		$this->isbn = $isbn;
+		$prepdata = array(
+			$this->field_isbn => $newdata['isbn'],
+			$this->field_judul => $newdata['judul'],
+			$this->field_pengarang => $newdata['pengarang'],
+			$this->field_idpenerbit => $newdata['idpenerbit']
+		);
+		return $this->update_data($prepdata);
+	}
+
+	public function delete($isbn)
+	{
+		$this->isbn = $isbn;
+		return $this->delete_data();
+	}
 	// end represent
 
 	// start query
@@ -156,6 +193,27 @@ class Detailbuku_model extends CI_Model
 		} else {
 			return null;
 		}
+	}
+
+	private function insert_data()
+	{
+		$newdata = array(
+			$this->field_isbn => $this->isbn,
+			$this->field_judul => $this->judul,
+			$this->field_pengarang => $this->pengarang,
+			$this->field_idpenerbit => $this->idpenerbit
+		);
+		return $this->db->insert($this->table, $newdata);
+	}
+
+	public function update_data($newdata)
+	{
+		return $this->db->update($this->table, $newdata, array($this->field_isbn => $this->isbn));
+	}
+
+	private function delete_data()
+	{
+		return $this->db->delete($this->table, array($this->field_isbn => $this->isbn));
 	}
 	// end query
 }

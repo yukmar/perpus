@@ -61,11 +61,20 @@ $route['testing'] = 'admin/buku/testing';
 // katalog
 $route['katalog'] = 'katalog/katalog';
 
-// admin manage user
+// admin manage data user
 $route['manage-user'] = 'admin/user';
 $route['manage-user/add'] = 'admin/user/create';
 $route['manage-user/edit'] = 'admin/user/update';
 $route['manage-user/delete'] = 'admin/user/delete';
 
-// admin manage books
+// admin manage data books
 $route['manage-buku'] = 'admin/buku';
+$route['manage-buku/add'] = 'admin/buku/add';
+$route['manage-buku/edit'] = 'admin/buku/update';
+$route['manage-buku/delete'] = 'admin/buku/delete';
+
+// admin manage data penerbit
+$route['manage-penerbit'] = 'admin/penerbit';
+$route['manage-penerbit/add'] = 'admin/penerbit/add';
+$route['manage-penerbit/edit'] = 'admin/penerbit/update';
+$route['manage-penerbit/delete'] = 'admin/penerbit/delete';

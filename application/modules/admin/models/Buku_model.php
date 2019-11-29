@@ -31,7 +31,6 @@ class Buku_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Detail_buku', 'detbuku_m');
 	}
 
 	/**
@@ -134,9 +133,9 @@ class Buku_model extends CI_Model
 
 	public function get_allwithdetails()
 	{
-		$lists = array();
-		foreach ($this->all() as $key => $value) {
-			$lists[$key] = $this->detbuku_m->search('isbn', $value['isbn'], 'judul');
+		$lists = $this->all();
+		foreach ($lists as $key => $value) {
+			$lists[$key]['judul'] = $this->detbuku_m->search('isbn', $value['isbn'], 'judul');
 		}
 
 		return $lists;
@@ -151,7 +150,7 @@ class Buku_model extends CI_Model
 	 */
 	private function all()
 	{
-		$result_set = $this->db->get($this->table);
+		$result_set = $this->db->get($this->table)->result();
 		$data = array();
 		foreach ($result_set as $key => $value) {
 			$this->id = $value->{$this->field_id};
@@ -179,6 +178,11 @@ class Buku_model extends CI_Model
 		} else {
 			return null;
 		}
+	}
+
+	public function count_eksemplar($isbn)
+	{
+		return $this->db->get_where($this->table, array($this->field_isbn => $isbn))->num_rows();
 	}
 	// end query
 }
