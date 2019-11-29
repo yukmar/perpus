@@ -59,7 +59,41 @@
 			<caption>Tambah Item Buku</caption>
 			<tbody>
 				<tr>
-					<td>data</td>
+					<td>
+						ISBN: 
+					</td>
+					<td>
+						<input type="text" name="txtitemisbn" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Tahun Terbit: 
+					</td>
+					<td>
+						<input type="text" name="txtterbit">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Harga: 
+					</td>
+					<td>
+						<input type="text" name="txtharga">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Tanggal Pembelian: 
+					</td>
+					<td>
+						<input type="date" name="txttglbeli">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button type="submit">Tambah Item Buku</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

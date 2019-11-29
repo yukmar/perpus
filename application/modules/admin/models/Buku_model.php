@@ -131,6 +131,16 @@ class Buku_model extends CI_Model
 		return $this->search_data($field, $search_value, $returnfield);
 	}
 
+	public function insert($newdata)
+	{
+		$this->isbn = $newdata[$this->newprop_isbn];
+		$this->terbit = $newdata[$this->newprop_terbit];
+		$this->harga = $newdata[$this->newprop_harga];
+		$this->tgl_beli = $newdata[$this->newprop_tgl_beli];
+
+		return $this->insert_data();
+	}
+
 	public function get_allwithdetails()
 	{
 		$lists = $this->all();
@@ -178,6 +188,17 @@ class Buku_model extends CI_Model
 		} else {
 			return null;
 		}
+	}
+
+	private function insert_data()
+	{
+		$newdata = array(
+			$this->field_isbn => $this->isbn,
+			$this->field_terbit => $this->terbit,
+			$this->field_harga => $this->harga,
+			$this->field_tgl_beli => $this->tgl_beli
+		);
+		return $this->db->insert($this->table, $newdata);
 	}
 
 	public function count_eksemplar($isbn)

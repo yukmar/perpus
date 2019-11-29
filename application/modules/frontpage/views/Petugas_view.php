@@ -10,7 +10,11 @@
 	ini petugas
 	<br/>
 	menu:
-	<br>
+	<br/>
 	<a href="<?=site_url('manage-user')?>">Pengelolaan Data User</a>
+	<br/>
+	<a href="<?=site_url('manage-buku')?>">Pengelolaan Buku</a>
+	<br/>
+	<a href="<?=site_url('manage-penerbit')?>">Pengelolaan Penerbit</a>
 </body>
 </html>

@@ -79,7 +79,7 @@ class Detailbuku_model extends CI_Model
 		return $lists;
 	}
 
-	public function search($fieldalias, $search_value, $returnfieldalias)
+	public function search($fieldalias, $search_value, $returnfieldalias = null)
 	{
 		$field = null;
 		$returnfield = null;
@@ -137,7 +137,13 @@ class Detailbuku_model extends CI_Model
 		$this->judul = $newdata['judul'];
 		$this->pengarang = $newdata['pengarang'];
 		$this->idpenerbit = $newdata['idpenerbit'];
-		return $this->insert_data();
+		$existedisbn = $this->search_data($this->field_isbn, $this->isbn);
+		if ($existedisbn) {
+			// return "info buku telah ada";
+			return null;
+		} else {
+			return $this->insert_data();
+		}
 	}
 
 	public function update($isbn, $newdata)

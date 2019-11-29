@@ -28,7 +28,6 @@ class Buku extends CI_Controller
 		$newdata['judul'] = $this->input->post('txtjudul');
 		$newdata['pengarang'] = $this->input->post('txtpengarang');
 		$newdata['idpenerbit'] = $this->input->post('opsipenerbit');
-		// var_dump($isbn, $judul, $pengarang, $penerbit);
 		$result = $this->detbuku_m->insert($newdata);
 		if ($result) {
 			redirect(site_url('manage-buku'));
@@ -37,9 +36,24 @@ class Buku extends CI_Controller
 		}
 	}
 
-	public function addintem()
+	public function additem()
 	{
-		echo "additembuku";
+		$newdata['isbn'] = $this->input->post('txtitemisbn');
+		$newdata['terbit'] = $this->input->post('txtterbit');
+		$newdata['harga'] = $this->input->post('txtharga');
+		$newdata['tgl_beli'] = $this->input->post('txttglbeli');
+
+		$existedisbn = $this->detbuku_m->search('isbn', $newdata['isbn']);
+		if ($existedisbn) {
+			$result = $this->buku_m->insert($newdata);
+			if ($result) {
+				redirect(site_url('manage-buku'));
+			} else {
+				echo "gagal menambahkan item buku";
+			}
+		} else {
+			echo "isbn belum terdaftar, silahkan tambah info buku terlebih dahulu";
+		}
 	}
 
 	public function update()
