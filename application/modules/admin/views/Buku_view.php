@@ -107,6 +107,7 @@
 				<th>ISBN</th>
 				<th>Judul</th>
 				<th>Pengarang</th>
+				<th>Penerbit</th>
 				<th>total eksemplar</th>
 				<th>aksi</th>
 			</tr>
@@ -121,7 +122,7 @@
 				<td><?=$value['judul']?></td>
 				<td><?=$value['pengarang']?></td>
 				<td><?=$value['penerbit']?></td>
-				<td><?=$value['total_eksemplar']?></td>
+				<td><?=$value['eksemplar']?></td>
 				<td>
 					<button onclick="editinfo(<?=$value['idpenerbit']?>)">edit</button>
 				</td>

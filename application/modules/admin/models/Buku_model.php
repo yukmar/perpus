@@ -8,29 +8,31 @@ class Buku_model extends CI_Model
 	private $table = 'buku';
 
 	// variabel menampung nilai field/atribut
-	private $id = null;
 	private $isbn = null;
-	private $terbit = null;
-	private $harga = null;
-	private $tgl_beli = null;
+	private $idpenerbit = null;
+	private $judul = null;
+	private $thn_terbit = null;
 
 	// variabel menampung nama field/atribut
-	private $field_id = "id_buku";
 	private $field_isbn = "isbn";
-	private $field_terbit = "tahun_terbit";
-	private $field_harga = "harga";
-	private $field_tgl_beli = "tgl_pembelian";
+	private $field_idpenerbit = "id_penerbit";
+	private $field_judul = "judul";
+	private $field_thn_terbit = "tahun_terbit";
 
 	// variabel menampung nama baru (altering) field/atribut 
-	private $newprop_id = "id";
-	private $newprop_isbn = "isbn";
-	private $newprop_terbit = "terbit";
-	private $newprop_harga = "harga";
-	private $newprop_tgl_beli = "tgl_beli";
+	private $alias_isbn = "isbn";
+	private $alias_idpenerbit = "idpenerbit";
+	private $alias_judul = "judul";
+	private $alias_thn_terbit = "tahunterbit";
 
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model(array(
+			'Itembuku_model' => 'item_m',
+			'Penerbit_model' => 'penerbit_m',
+			'Detailpengarang_model' => 'detpengarang_m'
+		));
 	}
 
 	/**
@@ -42,29 +44,25 @@ class Buku_model extends CI_Model
 	private function reconstruct($field = null)
 	{
 		switch ($field) {
-			case $this->field_id:
-				return $this->id;
-				break;
 			case $this->field_isbn:
 				return $this->isbn;
 				break;
-			case $this->field_terbit:
-				return $this->terbit;
+			case $this->field_idpenerbit:
+				return $this->idpenerbit;
 				break;
-			case $this->field_harga:
-				return $this->harga;
+			case $this->field_judul:
+				return $this->judul;
 				break;
-			case $this->field_tgl_beli:
-				return $this->tgl_beli;
+			case $this->field_thn_terbit:
+				return $this->thn_terbit;
 				break;
 			
 			default:
 				return array(
-					$this->newprop_id => $this->id,
-					$this->newprop_isbn => $this->isbn,
-					$this->newprop_terbit => $this->terbit,
-					$this->newprop_harga => $this->harga,
-					$this->newprop_tgl_beli => $this->tgl_beli
+					$this->alias_isbn => $this->isbn,
+					$this->alias_idpenerbit => $this->idpenerbit,
+					$this->alias_judul => $this->judul,
+					$this->alias_thn_terbit => $this->thn_terbit
 				);
 				break;
 		}
@@ -73,56 +71,60 @@ class Buku_model extends CI_Model
 	// start represent
 	public function get_all()
 	{
-		return $this->all();
+		$lists = $this->all();
+		foreach ($lists as $key => $value) {
+			$lists[$key]['eksemplar'] = $this->item->count($this->alias_isbn, $value[$this->alias_isbn]);
+			$lists[$key]['penerbit'] = $this->penerbit_m->search('id', $value[$this->alias_idpenerbit], 'nama')[0];
+			$lists[$key]['idpengarang'] = $this->detpengarang_m->search($this->alias_isbn, $value[$this->alias_isbn], 'idpengarang');
+			$lists[$key]['pengarang'] = implode(', ', $this->detpengarang_m->get_set($value[$this->alias_isbn]));
+		}
+		return $lists;
 	}
 
-	public function search($fieldalias, $search_value, $returnfieldalias = null)
+	public function search($field_alias, $search_value, $returnfield_alias = null)
 	{
 		$field = null;
 		$returnfield = null;
 
-		switch ($fieldalias) {
-			case $this->newprop_id:
-				$field = $this->field_id;
+		switch ($field_alias) {
+			case $this->alias_isbn:
+				$field = $this->field_isbn;
 				break;
 
-			case $this->newprop_isbn :
-				$field = $this->field_isbn ;
+			case $this->alias_idpenerbit:
+				$field = $this->field_idpenerbit;
 				break;
 
-			case $this->newprop_terbit:
-				$field = $this->field_terbit;
+			case $this->alias_judul:
+				$field = $this->field_judul;
 				break;
 
-			case $this->newprop_harga:
-				$field = $this->field_harga;
+			case $this->alias_thn_terbit:
+				$field = $this->field_thn_terbit;
 				break;
-
-			case $this->newprop_tgl_beli:
-				$field = $this->field_tgl_beli;
-				break;
-
+			
 			default:
 				return null;
 				break;
 		}
 
-		switch ($returnfieldalias) {
-			case $this->newprop_id:
-				$returnfield = $this->field_id;
+		switch ($returnfield_alias) {
+			case $this->alias_isbn:
+				$returnfield = $this->field_isbn;
 				break;
-			case $this->newprop_isbn :
-				$returnfield = $this->field_isbn ;
+
+			case $this->alias_idpenerbit:
+				$returnfield = $this->field_idpenerbit;
 				break;
-			case $this->newprop_terbit:
-				$returnfield = $this->field_terbit;
+
+			case $this->alias_judul:
+				$returnfield = $this->field_judul;
 				break;
-			case $this->newprop_harga:
-				$returnfield = $this->field_harga;
+
+			case $this->alias_thn_terbit:
+				$returnfield = $this->field_thn_terbit;
 				break;
-			case $this->newprop_tgl_beli:
-				$returnfield = $this->field_tgl_beli;
-				break;
+
 			default:
 				$returnfield = null;
 				break;
@@ -133,22 +135,35 @@ class Buku_model extends CI_Model
 
 	public function insert($newdata)
 	{
-		$this->isbn = $newdata[$this->newprop_isbn];
-		$this->terbit = $newdata[$this->newprop_terbit];
-		$this->harga = $newdata[$this->newprop_harga];
-		$this->tgl_beli = $newdata[$this->newprop_tgl_beli];
-
-		return $this->insert_data();
+		$this->isbn = $newdata[$this->alias_isbn];
+		$this->judul = $newdata[$this->alias_judul];
+		$this->thn_terbit = $newdata[$this->alias_thn_terbit];
+		$this->idpenerbit = $newdata[$this->alias_idpenerbit];
+		$existedisbn = $this->search_data($this->field_isbn, $this->isbn);
+		if ($existedisbn) {
+			// return "info buku telah ada";
+			return null;
+		} else {
+			return $this->insert_data();
+		}
 	}
 
-	public function get_allwithdetails()
+	public function update($isbn, $newdata)
 	{
-		$lists = $this->all();
-		foreach ($lists as $key => $value) {
-			$lists[$key]['judul'] = $this->detbuku_m->search('isbn', $value['isbn'], 'judul');
-		}
+		$this->isbn = $isbn;
+		$prepdata = array(
+			$this->field_isbn = $newdata[$this->alias_isbn],
+			$this->field_judul = $newdata[$this->alias_judul],
+			$this->field_thn_terbit = $newdata[$this->alias_thn_terbit],
+			$this->field_idpenerbit = $newdata[$this->alias_idpenerbit]
+		);
+		return $this->update_data($prepdata);
+	}
 
-		return $lists;
+	public function delete($isbn)
+	{
+		$this->isbn = $isbn;
+		return $this->delete_data();
 	}
 	// end represent
 
@@ -163,11 +178,10 @@ class Buku_model extends CI_Model
 		$result_set = $this->db->get($this->table)->result();
 		$data = array();
 		foreach ($result_set as $key => $value) {
-			$this->id = $value->{$this->field_id};
 			$this->isbn = $value->{$this->field_isbn};
-			$this->terbit = $value->{$this->field_terbit};
-			$this->harga = $value->{$this->field_harga};
-			$this->tgl_beli = $value->{$this->field_tgl_beli};
+			$this->idpenerbit = $value->{$this->field_idpenerbit};
+			$this->judul = $value->{$this->field_judul};
+			$this->thn_terbit = $value->{$this->field_thn_terbit};
 			$data[] = $this->reconstruct();
 		}
 		return $data;
@@ -177,14 +191,15 @@ class Buku_model extends CI_Model
 	{
 		$result_set = $this->db->get_where($this->table, array($field => $value))->result();
 		if ($result_set) {
+			$data = array();
 			foreach ($result_set as $key => $value) {
-				$this->id = $value->{$this->field_id};
-				$this->isbn  = $value->{$this->field_isbn };
-				$this->terbit = $value->{$this->field_terbit};
-				$this->harga = $value->{$this->field_harga};
-				$this->tgl_beli = $value->{$this->field_tgl_beli};
+				$this->isbn = $value->{$this->field_isbn};
+				$this->idpenerbit = $value->{$this->field_idpenerbit};
+				$this->judul = $value->{$this->field_judul};
+				$this->thn_terbit = $value->{$this->field_thn_terbit};
+				$data[] = $this->reconstruct($returnfield);
 			}
-			return $this->reconstruct($returnfield);
+			return $data;
 		} else {
 			return null;
 		}
@@ -194,16 +209,21 @@ class Buku_model extends CI_Model
 	{
 		$newdata = array(
 			$this->field_isbn => $this->isbn,
-			$this->field_terbit => $this->terbit,
-			$this->field_harga => $this->harga,
-			$this->field_tgl_beli => $this->tgl_beli
+			$this->field_judul => $this->judul,
+			$this->field_thn_terbit => $this->thn_terbit,
+			$this->field_idpenerbit => $this->idpenerbit
 		);
 		return $this->db->insert($this->table, $newdata);
 	}
 
-	public function count_eksemplar($isbn)
+	public function update_data($newdata)
 	{
-		return $this->db->get_where($this->table, array($this->field_isbn => $isbn))->num_rows();
+		return $this->db->update($this->table, $newdata, array($this->field_isbn => $this->isbn));
+	}
+
+	private function delete_data()
+	{
+		return $this->db->delete($this->table, array($this->field_isbn => $this->isbn));
 	}
 	// end query
 }

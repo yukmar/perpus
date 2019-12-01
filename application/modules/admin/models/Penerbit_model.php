@@ -17,9 +17,9 @@ class Penerbit_model extends CI_Model
 	private $field_kota = "kota";
 
 	// variabel menampung nama baru (altering) field/atribut
-	private $newprop_id = "id";
-	private $newprop_nama = "nama";
-	private $newprop_kota = "kota";
+	private $alias_id = "id";
+	private $alias_nama = "nama";
+	private $alias_kota = "kota";
 
 	function __construct()
 	{
@@ -47,9 +47,9 @@ class Penerbit_model extends CI_Model
 			
 			default:
 				return array(
-					$this->newprop_id => $this->id,
-					$this->newprop_nama => $this->nama,
-					$this->newprop_kota => $this->kota
+					$this->alias_id => $this->id,
+					$this->alias_nama => $this->nama,
+					$this->alias_kota => $this->kota
 				);
 				break;
 		}
@@ -61,19 +61,19 @@ class Penerbit_model extends CI_Model
 		return $this->all();
 	}
 
-	public function search($fieldalias, $search_value, $returnfieldalias)
+	public function search($field_alias, $search_value, $returnfield_alias = null)
 	{
 		$field = null;
 		$returnfield = null;
 
-		switch ($fieldalias) {
-			case $this->newprop_id:
+		switch ($field_alias) {
+			case $this->alias_id:
 				$field = $this->field_id;
 				break;
-			case $this->newprop_nama:
+			case $this->alias_nama:
 				$field = $this->field_nama;
 				break;
-				case $this->newprop_kota:
+				case $this->alias_kota:
 				$field = $this->field_kota;
 				break;
 			
@@ -82,14 +82,14 @@ class Penerbit_model extends CI_Model
 				break;
 		}
 
-		switch ($returnfieldalias) {
-			case $this->newprop_id:
+		switch ($returnfield_alias) {
+			case $this->alias_id:
 				$returnfield = $this->field_id;
 				break;
-			case $this->newprop_nama:
+			case $this->alias_nama:
 				$returnfield = $this->field_nama;
 				break;
-			case $this->newprop_kota:
+			case $this->alias_kota:
 				$returnfield = $this->field_kota;
 				break;
 			
@@ -113,8 +113,8 @@ class Penerbit_model extends CI_Model
 	{
 		$this->id = $id;
 		$prepdata = array(
-			$this->field_nama => $newdata[$this->newprop_nama],
-			$this->field_kota => $newdata[$this->newprop_kota]
+			$this->field_nama => $newdata[$this->alias_nama],
+			$this->field_kota => $newdata[$this->alias_kota]
 		);
 		return $this->update_data($prepdata);
 	}
@@ -148,12 +148,14 @@ class Penerbit_model extends CI_Model
 	{
 		$result_set = $this->db->get_where($this->table, array($field => $value))->result();
 		if ($result_set) {
+			$data = array();
 			foreach ($result_set as $key => $value) {
 				$this->id = $value->{$this->field_id};
 				$this->nama = $value->{$this->field_nama};
 				$this->kota = $value->{$this->field_kota};
+				$data[] = $this->reconstruct($returnfield);
 			}
-			return $this->reconstruct($returnfield);
+			return $data;
 		} else {
 			return null;
 		}
