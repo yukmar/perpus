@@ -8,21 +8,26 @@ class Landing extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(array('Siswa_model' => 'siswa_m', 'Petugas_model' => 'petugas_m'));
+		$this->load->model(array(
+			'Siswa_model' => 'siswa_m',
+			'Petugas_model' => 'petugas_m',
+			'Buku_model' => 'buku_m'
+		));
 	}
 
 	public function index()
 	{
+		$data['list_buku'] = $this->buku_m->get_all();
 		$page = $this->input->get('page');
 		switch ($page) {
 			case 'login':
-				$this->load->view('Login_view');
+				$this->load->view('Login_view', $data);
 				break;
 			case 'daftar':
 				$this->load->view('Daftar_view');
 				break;
 			default:
-				$this->load->view('Login_view');
+				$this->load->view('Login_view', $data);
 				break;
 		}
 	}
