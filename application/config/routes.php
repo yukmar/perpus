@@ -73,6 +73,7 @@ $route['manage-buku/addinfo'] = 'admin/buku/addinfo';
 $route['manage-buku/additem'] = 'admin/buku/additem';
 $route['manage-buku/edit'] = 'admin/buku/update';
 $route['manage-buku/delete'] = 'admin/buku/delete';
+$route['manage-buku/daftar_pengarang'] = 'admin/buku/daftar_pengarang';
 
 // admin manage data penerbit
 $route['manage-penerbit'] = 'admin/penerbit';

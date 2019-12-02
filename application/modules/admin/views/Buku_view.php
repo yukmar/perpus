@@ -24,11 +24,15 @@
 						<textarea name="txtjudul" id="tjudul"></textarea>
 					</td>
 				</tr>
-				<tr>
+				<tr id="trpengarang">
 					<td>Pengarang: </td>
 					<td>
-						<textarea name="txtpengarang" id="tpengarang"></textarea>
+						<input type="text" name="txtpengarang[]" class="tpengarang"></textarea>
 					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><button onclick="return addpengarang()">tambah pengarang</button></td>
 				</tr>
 				<tr>
 					<td>Penerbit: </td>
@@ -64,14 +68,6 @@
 					</td>
 					<td>
 						<input type="text" name="txtitemisbn" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Tahun Terbit: 
-					</td>
-					<td>
-						<input type="text" name="txtterbit">
 					</td>
 				</tr>
 				<tr>
@@ -135,36 +131,8 @@
 		</tbody>
 	</table>
 
-	<script>
-		var tisbn = document.getElementById('tisbn');
-		var tjudul = document.getElementById('tjudul');
-		var tpengarang = document.getElementById('tpengarang');
-		var tpenerbit = document.getElementById('tpenerbit');
-		var finfo = document.getElementById('form-infobuku');
-
-		function editinfo(no) {
-			var selected_row = event.target.closest('tr');
-			var isbn = selected_row.children[1].innerHTML;
-			var judul = selected_row.children[2].innerHTML;
-			var pengarang = selected_row.children[3].innerHTML;
-
-			finfo.firstChild.nextSibling.caption.innerHTML = 'EDIT INFO BUKU';
-			finfo.action = "<?=site_url('manage-buku/edit/?no=')?>" + isbn;
-			finfo.querySelector('button').innerHTML = 'edit';
-
-			tisbn.value = isbn;
-			tjudul.value = judul;
-			tpengarang.value = pengarang;
-			tpenerbit.value = no;
-		}
-
-		function resetforminfo() {
-			var caption = event.target.querySelector('caption');
-			var title = event.target.querySelector('caption').innerHTML.split(" ");
-			event.target.querySelector('caption').innerHTML = 'CREATE '+title[1];
-			event.target.action = "<?=site_url('manage-buku/addinfo')?>";
-			event.target.querySelector('button').innerHTML = 'tambah';
-		}
-	</script>
+	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
+	<script src="<?=base_url('assets/js/jquery-ui-1.12.1/')?>jquery-ui.min.js"></script>
+	<script src="<?=base_url('assets/js/custom/')?>buku.js"></script>
 </body>
 </html>

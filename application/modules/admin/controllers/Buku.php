@@ -11,7 +11,8 @@ class Buku extends CI_Controller
 		$this->load->model(array(
 			'Buku_model' => 'buku_m',
 			'Itembuku_model' => 'item',
-			'Penerbit_model' => 'penerbit_m'
+			'Penerbit_model' => 'penerbit_m',
+			'Pengarang_model' => 'pengarang_m'
 		));
 	}
 
@@ -22,19 +23,35 @@ class Buku extends CI_Controller
 		$this->load->view('Buku_view', $data);
 	}
 
-	// public function addinfo()
-	// {
-	// 	$newdata['isbn'] = $this->input->post('txtisbn');
-	// 	$newdata['judul'] = $this->input->post('txtjudul');
-	// 	$newdata['pengarang'] = $this->input->post('txtpengarang');
-	// 	$newdata['idpenerbit'] = $this->input->post('opsipenerbit');
-	// 	$result = $this->detbuku_m->insert($newdata);
-	// 	if ($result) {
-	// 		redirect(site_url('manage-buku'));
-	// 	} else {
-	// 		echo "gagal";
-	// 	}
-	// }
+	public function search_pengarang()
+	{
+		$nama = $this->input->get('no');
+	}
+
+	public function daftar_pengarang()
+	{
+		$daftar = array();
+		foreach ($this->pengarang_m->get_all() as $key => $value) {
+			$daftar[] = $value['nama'];
+		}
+		print json_encode($daftar);
+	}
+
+	public function addinfo()
+	{
+		$newdata['isbn'] = $this->input->post('txtisbn');
+		$newdata['judul'] = $this->input->post('txtjudul');
+		$newdata['pengarang'] = $this->input->post('txtpengarang[]');
+		$newdata['idpenerbit'] = $this->input->post('opsipenerbit');
+
+		var_dump($newdata);
+		// $result = $this->detbuku_m->insert($newdata);
+		// if ($result) {
+		// 	redirect(site_url('manage-buku'));
+		// } else {
+		// 	echo "gagal";
+		// }
+	}
 
 	// public function additem()
 	// {
