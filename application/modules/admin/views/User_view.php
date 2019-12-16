@@ -1,173 +1,228 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
-	<link rel="stylesheet" href="">
-</head>
-<body>
-	<form action="<?=site_url('manage-user/add/?t=2')?>" method="post" id="form_siswa" onreset="resethandling(2)">
-		<table>
-			<caption>CREATE SISWA</caption>
-			<tbody>
-				<tr>
-					<td><?=rand(1000000000, 9999999999)?></td>
-				</tr>
-				<tr>
-					<td>nisn: </td> 
-					<td>
-						<input type="textbox" name="txtiduser" id="tnisn" />
-					</td>
-				</tr>
-				<tr>
-					<td>nama: </td>
-					<td>
-						<input type="textbox" name="txtnama" id="tnama_siswa" />
-					</td>
-				</tr>
-				<tr style="display: none">
-					<td>password: </td>
-					<td>
-						<input type="password" name="txtpass" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="submit">create</button>
-					</td>
-					<td>
-						<button type="reset">reset</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-	<form action="<?=site_url('manage-user/add/?t=1')?>" method="post" id="form_petugas" onreset="resethandling(1)">
-		<table>
-			<caption>CREATE PEGAWAI</caption>
-			<tbody>
-				<tr>
-					<td><?=rand(100000000000000000, 999999999999999999)?></td>
-				</tr>
-				<tr>
-					<td>nip:</td>
-					<td>
-						<input type="textbox" name="txtiduser" id="tnip" />
-					</td>
-				</tr>
-				<tr>
-					<td>nama:</td>
-					<td>
-						<input type="textbox" name="txtnama" id="tnama_petugas"/>
-					</td>
-				</tr>
-				<tr style="display: none">
-					<td>password: </td>
-					<td>
-						<input type="password" name="txtpass" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="submit">create</button>
-					</td>
-					<td>
-						<button type="reset">reset</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-<br/>
-<br/>
-	<table>
-		<caption>DATA SISWA</caption>
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>NISN</th>
-				<th>Nama Siswa</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php	foreach ($data_siswa as $key => $value) { ?>
-			<tr>
-				<td><?=$key+1?></td>
-				<td><?=$value['nisn']?></td>
-				<td><?=$value['nama']?></td>
-				<td><button onclick="editsiswa(<?=$value['nisn']?>)">edit</button></td>
-				<td><a href="<?=site_url('manage-user/delete/?t=2&u='.$value['nisn'])?>">delete</a></td>
-			</tr>
-			<?php	} ?>
-		</tbody>
-	</table>
-<br/>
-<br/>
-	<table>
-		<caption>DATA PETUGAS</caption>
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>NIP</th>
-				<th>Nama Petugas</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php	foreach ($data_petugas as $key => $value) { ?>
-			<tr>
-				<td><?=$key+1?></td>
-				<td><?=$value['nip']?></td>
-				<td><?=$value['nama']?></td>
-				<td><button onclick="editpetugas(<?=$value['nip']?>)">edit</button></td>
-				<td><a href="<?=site_url('manage-user/delete/?t=1&u='.$value['nip'])?>">delete</a></td>
-			</tr>
-			<?php	} ?>
-		</tbody>
-	</table>
+<?=$this->load->view('header_view.php')?>
+<div class="containers container-fluid">
+	<input data-function="swipe" id="swipe" type="checkbox">
+  <label data-function="swipe" for="swipe"><i class="fa">&#xf057;</i></label>
+  <label data-function="swipe" for="swipe"><i class="fa">&#xf0c9;</i></label>
+<!--    <div class="row">-->
+	<div class="headings section-break">
+		<div class="linebreak"></div>
+		<h2 class="caption-page">PENGELOLAAN USER</h2>
+		<div class="linebreak"></div>
+	</div>
+  <div class="headings row">
+  	<section class="col-sm-6">
+	  	<h4 class="caption-form text-center">SISWA</h4>
+  		<div class="row container-fluid">
+  			<div class="container border-form">
+	  			<form action="<?=site_url('manage-user/add/?t=2')?>" method="post" id="form-siswa" data-role="tambah">
+	  			<p>FORM TAMBAH USER SISWA</p>
+	  				<div class="form-group row">
+							<label class="col-sm-2 col-form-label">NIS</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Nomor Induk Siswa" name="txtnis" />
+             		<small class="form-text text-danger" id="nis-message"></small>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Nama</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" placeholder="Nama Siswa" name="txtnama" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Kelas</label>
+							<div class="col-sm-10">
+								<!-- <input type="text" class="form-control" placeholder="Kelas" name="txtkelas" /> -->
+								<select name="kelas">
+									<?php foreach ($kelas as $key => $value) { ?>
+									<option value="<?=$value['id']?>"><?=$value['nama']?></option>
+									<?php } ?>
+								</select>
+             		<small class="form-text text-primary"><a onclick="toggleModal('login')">tambah kelas</a></small>
+							</div>
+						</div>
+						<div class="form-group row" id="divpass">
+							<label class="col-sm-2 col-form-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password"class="form-control" placeholder="Password"  name="txtpass" />
+							</div>
+						</div>
+						<button class="btn btn-primary" type="submit">TAMBAH</button>
+						<button class="btn btn-danger" type="reset">RESET</button>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container pt-2">
+					<h4>DATA USER SISWA</h4>
+					<table class="databook table" id="table-siswa">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>nis</th>
+								<th>Nama Siswa</th>
+								<th>Kelas</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php	foreach ($data_siswa as $key => $value) { ?>
+							<tr>
+								<td><?=$key+1?></td>
+								<td><?=$value['nis']?></td>
+								<td><?=$value['nama']?></td>
+								<td><?=$value['kelas']?></td>
+								<td>
+									<div class="btn-group" role="group">
+										<button class="btn btn-outline-success btn-siswa" data-nis="<?=$value['nis']?>" data-kelas="<?=$value['idkelas']?>">Ubah</button>
+										<a class="btn btn-outline-danger" href="<?=site_url('manage-user/delete/?t=2&u='.$value['nis'])?>">Hapus</a>
+									</div>
+								</td>
+							</tr>
+							<?php	} ?>
+						</tbody>
+					</table>
+				</div>
+  		</div>
+  		<div class="row">
+  			<div class="container pt-2">
+  				<h4>DATA KELAS</h4>
+  				<table class="table databook" id="table-kelas">
+  					<thead>
+  						<tr>
+  							<th>#</th>
+  							<th>Nama Kelas</th>
+  							<th>Total Siswa</th>
+  							<th>Aksi</th>
+  						</tr>
+  					</thead>
+  					<tbody>
+  						<?php foreach ($kelas as $key => $value) { ?>
+  						<tr>
+  							<td><?=$key+1?></td>
+  							<td><?=$value['nama']?></td>
+  							<td><?=$value['total']?></td>
+  							<td>
+  								<div class="btn-group">
+  									<button class="btn btn-outline-success btn-kelas" data-kelas="<?=$value['id']?>" onclick="toggleModal('daftar')">Ubah</button>
+  									<a href="<?=site_url('manage-user/delete-kelas/?k=').$value['id']?>" class="btn btn-outline-danger" >Hapus</a>
+  								</div>
+  							</td>
+  						</tr>
+  						<?php } ?>
+  					</tbody>
+  				</table>
+  			</div>
+  		</div>
+  	</section>
+  	<section class="col-sm-6">
+	  	<h4 class="caption-form text-center">PETUGAS</h4>
+  		<div class="row container-fluid">
+  			<div class="container border-form">
+	  			<p id="caption-petugas">FORM TAMBAH USER PETUGAS</p>
+	  			<form action="<?=site_url('manage-user/add/?t=1')?>" method="post" id="form-petugas" data-role="tambah">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">NIP</label>
+							<div class="col-sm-10">
+								<input class="form-control" placeholder="Nomor Induk Pegawai" type="textbox" name="txtnip" />
+             		<small class="form-text text-danger" id="nip-message"></small>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Nama</label>
+							<div class="col-sm-10">
+								<input class="form-control" placeholder="Nama Pegawai" type="textbox" name="txtnama" />
+							</div>
+						</div>
+						<div class="form-group row" id="passpetugas">
+							<label class="col-sm-2 col-form-label">Password</label>
+							<div class="col-sm-10">
+								<input class="form-control" placeholder="Password" type="password" name="txtpass" />
+							</div>
+						</div>
+						<button class="btn btn-primary" type="submit">TAMBAH</button>
+						<button class="btn btn-danger" type="reset">RESET</button>
+					</form>
+				</div>
+			</div>
+			<div class="row container-fluid">
+				<div class="container pt-2">
+					<h4>DATA USER PETUGAS</h4>
+					<table class="databook table" id="table-petugas">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>NIP</th>
+								<th>Nama Petugas</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php	foreach ($data_petugas as $key => $value) { ?>
+							<tr>
+								<td><?=$key+1?></td>
+								<td><?=$value['nip']?></td>
+								<td><?=$value['nama']?></td>
+								<td>
+									<div class="btn-group" role="group">
+										<button class="btn btn-outline-success btn-petugas">ubah</button>
+										<a class="btn btn-outline-danger" href="<?=site_url('manage-user/delete/?t=1&u='.$value['nip'])?>">delete</a>
+									</div>
+								</td>
+							</tr>
+							<?php	} ?>
+						</tbody>
+					</table>
+				</div>
+  		</div>
+  	</section>
+	</div>
+<!--    </div>-->
+	<div class="sidebar">
+	  <nav class="menu">
+	    <li><a href="<?=site_url()?>">Home</a></li>
+	    <li><a href="<?=site_url('peminjaman')?>">Peminjaman</a></li>
+	    <li><a href="<?=site_url('pengembalian')?>">Pengembalian</a></li>
+	    <li><a href="<?=site_url('manage-buku')?>">Data Buku</a></li>
+	    <li><a href="<?=site_url('manage-user')?>">Data User</a></li>
+	    <li><a href="<?=site_url('manage-penerbit')?>">Data Penerbit</a></li>
+	    <li><a href="<?=site_url('manage-pengarang')?>">Data Pengarang</a></li>
+	  </nav>
+	</div>
+</div>
 
-	<script>
-		var form_siswa = document.getElementById('form_siswa');
-		var form_petugas = document.getElementById('form_petugas');
-		var tnisn = document.getElementById('tnisn');
-		var tnama_siswa = document.getElementById('tnama_siswa');
-		var tnip = document.getElementById('tnip');
-		var tnama_petugas = document.getElementById('tnama_petugas');
+<div class="modal__login loginform">
+  <div class="modal__login-content">
+    <span class="modal__login-close" onclick="toggleModal('login')">×</span>
+		<form action="<?=site_url('manage-user/add-kelas')?>" method="post" id="form-login">
+			<label>TAMBAH KELAS</label>
+			<div class="modal__login-forms-group">
+				<input type="text" placeholder="Masukkan Nama Kelas" class="modal__login-forms-control" name="newkelas" id="tuser" data-role="NIP/NIS" />
+			</div>
+			<button type="submit" class="modal__login-btn btn-primary" id="btn-login">TAMBAH KELAS</button>
+		</form>
+	</div>
+</div>
 
-		function editsiswa() {
-			var selected_row = event.target.closest('tr');
-			var nisn = selected_row.children[1].innerHTML;
-			var nama = selected_row.children[2].innerHTML;
+<div class="modal__daftar daftarform">
+  <div class="modal__daftar-content">
+    <span class="modal__daftar-close" onclick="toggleModal('daftar')">×</span>
+    <form action="<?=site_url('manage-user/edit-kelas/')?>" id="form-daftar" method="post">
+      <label>EDIT KELAS</label>
+      <div class="modal__daftar-forms-group">
+         <input type="text" class="modal__daftar-forms-control" name="editkelas" id="tedkelas" />
+         <input type="hidden" name="nokelas" id="hidkelas" />
+      </div>
+      <small class="form-text text-danger"></small>
+      <button type="submit" class="modal__daftar-btn btn-primary" id="btn-daftar">EDIT KELAS</button>
+    </form>
+  </div>
+</div>
 
-			form_siswa.firstChild.nextSibling.caption.innerHTML = 'EDIT SISWA';
-			form_siswa.action = "<?=site_url('manage-user/edit/?t=2')?>";
-			tnisn.value = nisn;
-			tnama_siswa.value = nama;
-			form_siswa.querySelector('button').innerHTML = 'edit';
-			form_siswa.childNodes[1].children[1].children[3].style.display = 'table-row';
-			console.log(form_siswa.childNodes[1].children[1].children[3]);
-		}
-
-		function editpetugas() {
-			var selected_row = event.target.closest('tr');
-			var nip = selected_row.children[1].innerHTML;
-			var nama = selected_row.children[2].innerHTML;
-			form_petugas.firstChild.nextSibling.caption.innerHTML = 'EDIT SISWA';
-			form_petugas.action = "<?=site_url('manage-user/edit/?t=1')?>";
-			tnip.value = nip;
-			tnama_petugas.value = nama;
-			form_petugas.querySelector('button').innerHTML = 'edit';
-			form_petugas.childNodes[1].children[1].children[3].style.display = 'table-row';
-			console.log(form_petugas.childNodes[1].children[1].children[3]);
-		}
-
-		function resethandling(t) {
-			var caption = event.target.querySelector('caption');
-			var title = event.target.querySelector('caption').innerHTML.split(" ");
-			event.target.querySelector('caption').innerHTML = 'CREATE '+title[1];
-			event.target.childNodes[1].children[1].children[3].style.display = 'none';
-			event.target.action = "<?=site_url('manage-user/add/?t=')?>"+t;
-			event.target.querySelector('button').innerHTML = 'create';
-		}
-	</script>
+	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
+	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
+	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <script src="<?=base_url('assets/js/')?>jquery.dataTables.min.js"></script>
+  <script src="<?=base_url('assets/js/custom/')?>user.js"></script>
 </body>
 </html>

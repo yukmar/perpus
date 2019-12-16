@@ -4,17 +4,27 @@
  */
 class User extends CI_Controller
 {
-	
+	private $tipe=null;
+	private $iduser = null;
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Siswa_model', 'siswa_m');
-		$this->load->model('Petugas_model', 'petugas_m');
+		$this->load->model(array(
+			'Siswa_model' => 'siswa_m',
+			'Petugas_model'=> 'petugas_m',
+			'Kelas_model' => 'kelas_m'
+		));
+		$this->iduser = $this->session->userdata('iduser');
+		if ($this->session->userdata('tipe') !== 'petugas') {
+			$this->session->sess_destroy();
+			redirect(site_url());
+		}
 	}
 
 	public function index()
 	{
 		$data['data_siswa'] = $this->siswa_m->get_all();
+		$data['kelas'] = $this->kelas_m->get_all();
 		$data['data_petugas'] = $this->petugas_m->get_all();
 		$this->load->view('User_view', $data);
 	}
@@ -24,15 +34,18 @@ class User extends CI_Controller
 		$result = null;
 
 		$tipe_user = $this->input->get('t');
-		$iduser = $this->input->post('txtiduser');
-		$nama = $this->input->post('txtnama');
-
+		$newdata['nama'] = $this->input->post('txtnama');
+		$newdata['password'] = DEFAULT_PASSWORD;
+	
 		switch ($tipe_user) {
 			case '1':
-				$result = $this->petugas_m->insert($iduser, $nama, DEFAULT_PASSWORD);
+				$newdata['nip'] = $this->input->post('txtnip');
+				$result = $this->petugas_m->insert($newdata);
 				break;
 			case '2':
-				$result = $this->siswa_m->insert($iduser, $nama, DEFAULT_PASSWORD);
+				$newdata['nis'] = $this->input->post('txtnis');
+				$newdata['kelas'] = $this->input->post('kelas');
+				$result = $this->siswa_m->insert($newdata);
 				break;
 			
 			default:
@@ -50,26 +63,26 @@ class User extends CI_Controller
 		$check_tipeuser = null;
 
 		$tipe_user = $this->input->get('t');
-		$iduser = $this->input->post('txtiduser');
-		$nama = $this->input->post('txtnama');
+		$newdata['nama'] = $this->input->post('txtnama');
 		$password = $this->input->post('txtpass');
 
-		$newdata = array(
-			'nama' => $nama
-		);
-
 		if ($password) {
-			$newdata = array_merge($newdata, array('password' => $password));
+			$newdata['password'] = $password;
 		}
 
 		switch ($tipe_user) {
 			case '1':
-				$this->petugas_m->update($iduser, $newdata);
+				$newdata['nip'] = $this->input->post('txtnip');
+				$oldnip = $this->input->post('oldnip');
+				$this->petugas_m->update($oldnip, $newdata);
 				redirect(site_url('manage-user'));
 				break;
 			
 			case '2':
-				$this->siswa_m->update($iduser, $newdata);
+				$oldnis = $this->input->post('oldnis');
+				$newdata['nis'] = $this->input->post('txtnis');
+				$newdata['idkelas'] = $this->input->post('kelas');
+				$result = $this->siswa_m->update($oldnis, $newdata);
 				redirect(site_url('manage-user'));
 				break;
 
@@ -104,4 +117,64 @@ class User extends CI_Controller
 		var_dump($tipe, $iduser);
 	}
 
+	public function logout()
+	{
+		session_destroy();
+		redirect(site_url());
+	}
+
+	public function checknis()
+	{
+		$nis = $this->input->get('nis');
+		$result = $this->siswa_m->search('nis', $nis);
+		if ($result) {
+			echo json_encode(array("ada" => "NIS telah terdaftar"));
+		} else {
+			echo json_encode(array("tidak" => "tidak ada"));
+		}
+	}
+
+	public function checknip()
+	{
+		$nip = $this->input->get('nip');
+		$result = $this->petugas_m->search('nip', $nip);
+		if ($result) {
+			echo json_encode(array("ada" => "NIP telah terdaftar"));
+		} else {
+			echo json_encode(array("tidak" => "tidak ada"));
+		}
+	}
+
+	public function searchkelas()
+	{
+		$kelas = $this->input->get('kelas');
+		$result = $this->kelas_m->search('nama', $kelas, 'id');
+		echo json_encode($result[0]);
+	}
+
+	public function addkelas()
+	{
+		$kelas = $this->input->post('newkelas');
+		$result = $this->kelas_m->insert($kelas);
+
+		redirect(site_url('manage-user'));
+	}
+
+	public function editkelas()
+	{
+		$nokelas = $this->input->post('nokelas');
+		$kelas = $this->input->post('editkelas');
+		$result = $this->kelas_m->update($nokelas, array("nama" => $kelas));
+		// var_dump($nokelas, $kelas);
+
+		redirect(site_url('manage-user'));
+	}
+
+	public function deletekelas()
+	{
+		$kelas = $this->input->get('k');
+		$result = $this->kelas_m->delete($kelas);
+
+		redirect(site_url('manage-user'));
+	}
 }

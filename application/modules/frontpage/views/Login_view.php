@@ -1,50 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Library</title>
-    <link rel="stylesheet" href="<?=base_url('assets/css/')?>style.css">
-    <link rel="stylesheet" href="<?=base_url('assets/css/')?>owl.carousel.min.css">
-    <link rel="stylesheet" href="<?=base_url('assets/css/')?>owl.theme.default.min.css">
-    <link rel="stylesheet" href="<?=base_url('assets/css/')?>jquery.dataTables.min.css">
-</head>
-<body>
-    <header id="split">
-        <div class="split__left">
-            <a><h4>LOGO</h4></a>
-        </div>
-        <div class="split__center">
-            <form>
-                <div class="search">
-                    <input class="form-control" type="search" placeholder="Tulis judul disini">
-                    <input class="form-control" type="button" value="Cari">
-                </div>
-            </form>
-        </div>
-        <div class="split__right">
-            <a onclick="toggleModal('login')" href="#login">Login</a>
-        </div>
-    </header>
-    <div class="nav nav-pad">
-        <div class="nav__menu">
-            <a href="#" class="nav__menu-item">Home</a>
-            <a href="#book" class="nav__menu-item">Book</a>
-        </div>
-    </div>
-    <div class="main">
-        <div class="owl-carousel" id="carousel">
-            <div class="carousel__item"> Your Content </div>
-            <div class="carousel__item"> Your Content </div>
-            <div class="carousel__item"> Your Content </div>
-            <div class="carousel__item"> Your Content </div>
-            <div class="carousel__item"> Your Content </div>
-            <div class="carousel__item"> Your Content </div>
-            <div class="carousel__item"> Your Content </div>
-        </div>
+<?php $this->load->view('header_view'); ?>
         <div class="nav-pad">
-            <table id="databook" class="databook">
+          <div class="section-break">
+            <div class="linebreak"></div>
+            <h1 class="text-center caption-landing">KATALOG BUKU</h1>
+            <div class="linebreak"></div>
+          </div>
+            <table id="databook" class="databook table table-striped">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -74,47 +35,55 @@
     <div class="modal__login loginform">
         <div class="modal__login-content">
             <span class="modal__login-close" onclick="toggleModal('login')">×</span>
-            <form action="<?=site_url('login')?>" method="post">
-                <div class="modal__login-form-group">
-                    <input type="text" placeholder="Masukkan username" class="modal__login-form-control" name="txtid"/>
+            <form action="<?=site_url('login')?>" method="post" id="form-login">
+              <label>LOGIN</label>
+                <div class="modal__login-forms-group">
+                    <input type="text" placeholder="Masukkan NIP/NIS" class="modal__login-forms-control" name="txtuser" id="tuser" data-role="NIP/NIS" />
                 </div>
-                <div class="modal__login-form-group">
-                    <input type="password" placeholder="Masukkan password" class="modal__login-form-control" name="txtpass"/>
+                <small class="form-text text-danger" id="user-message"></small>
+                <div class="modal__login-forms-group">
+                    <input type="password" placeholder="Masukkan password" class="modal__login-forms-control" name="txtpass" id="tpass" data-role="Password" />
                 </div>
-                <button type="submit" class="modal__login-btn btn-primary" value="Login">Login</button>
+                <small class="form-text text-danger" id="pass-message"></small>
+                <button type="submit" class="modal__login-btn btn-primary" id="btn-login" disabled>Login</button>
             </form>
         </div>
     </div>
+    <div class="modal__daftar daftarform">
+      <div class="modal__daftar-content">
+        <span class="modal__daftar-close" onclick="toggleModal('daftar')">×</span>
+        <form action="<?=site_url('daftar')?>" id="form-daftar" method="post" onsubmit="return daftar()">
+          <label>DAFTAR</label>
+          <div class="modal__daftar-forms-group">
+             <input type="text" placeholder="Masukkan Nomor Induk Siswa" class="modal__daftar-forms-control" name="dtxtuser" id="tduser" data-role="Nomor Induk Siswa" />
+          </div>
+          <small class="form-text text-danger"></small>
+          <div class="modal__daftar-forms-group">
+             <input type="text" placeholder="Masukkan Nama" class="modal__daftar-forms-control" name="dtxtnama" id="tdnama" data-role="Nama" />
+          </div>
+          <small class="form-text text-danger"></small>
+          <div class="modal__daftar-forms-group">
+             <!-- <input type="text" placeholder="Masukkan Kelas" class="modal__daftar-forms-control" name="dtxtkelas" id="tdkelas" data-role="Kelas" /> -->
+             <label>Kelas: </label>
+             <select name="kelas" class="custom-select">
+              <?php foreach ($kelas as $key => $value) { ?>
+               <option value="<?=$value['id']?>"><?=$value['nama']?></option>
+              <?php } ?>
+             </select>
+          </div>
+          <small class="form-text text-danger"></small>
+          <div class="modal__daftar-forms-group">
+            <input type="password" placeholder="Masukkan password" class="modal__daftar-forms-control" name="dtxtpass" id="tdpass" data-role="Password" />
+          </div>
+          <small class="form-text text-danger"></small>
+          <button type="submit" class="modal__daftar-btn btn-primary" id="btn-daftar" disabled>daftar</button>
+        </form>
+      </div>
+    </div>
     <script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
     <script src="<?=base_url('assets/js/')?>jquery.dataTables.min.js"></script>
+    <script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
-    <script>
-        var modalLogin = document.querySelector(".loginform");
-        function toggleModal(key) {
-            if (key == 'login') {
-                modalLogin.classList.toggle("modal__login-show");
-            } else {
-                modalLogin.classList.toggle("modal__login-show");
-            }
-        }
-        function windowOnClick(event) {
-            toggleModal('close');
-        }
-        $(document).ready(function(){
-            $('#carousel').owlCarousel({
-                autoplay:true,
-                autoplayTimeout:3000,
-                loop:true,
-                margin:10,
-                items: 1
-            })
-            $('#book').owlCarousel({
-                margin:10,
-                items: 7
-            })
-            $('#databook').DataTable();
-
-        });
-    </script>
+    <script src="<?=base_url('assets/js/custom/')?>frontpage.js"></script>
 </body>
 </html>

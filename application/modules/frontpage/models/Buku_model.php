@@ -12,18 +12,21 @@ class Buku_model extends CI_Model
 	private $idpenerbit = null;
 	private $judul = null;
 	private $thn_terbit = null;
+	private $idgenre = null;
 
 	// variabel menampung nama field/atribut
 	private $field_isbn = "isbn";
 	private $field_idpenerbit = "id_penerbit";
 	private $field_judul = "judul";
 	private $field_thn_terbit = "tahun_terbit";
+	private $field_idgenre = 'id_genre';
 
 	// variabel menampung nama baru (altering) field/atribut 
 	private $alias_isbn = "isbn";
 	private $alias_idpenerbit = "idpenerbit";
 	private $alias_judul = "judul";
 	private $alias_thn_terbit = "tahunterbit";
+	private $alias_idgenre = 'idgenre';
 
 	function __construct()
 	{
@@ -31,7 +34,8 @@ class Buku_model extends CI_Model
 		$this->load->model(array(
 			'Itembuku_model' => 'item_m',
 			'Penerbit_model' => 'penerbit_m',
-			'Detailpengarang_model' => 'detpengarang_m'
+			'Detailpengarang_model' => 'detpengarang_m',
+			'Genre_model' => 'genre_m'
 		));
 	}
 
@@ -76,7 +80,7 @@ class Buku_model extends CI_Model
 			$lists[$key]['eksemplar'] = $this->item_m->count($this->alias_isbn, $value[$this->alias_isbn]);
 			$lists[$key]['penerbit'] = $this->penerbit_m->search('id', $value[$this->alias_idpenerbit], 'nama')[0];
 			$lists[$key]['idpengarang'] = $this->detpengarang_m->search($this->alias_isbn, $value[$this->alias_isbn], 'idpengarang');
-			$lists[$key]['pengarang'] = implode(', ', $this->detpengarang_m->get_set($value[$this->alias_isbn]));
+			$lists[$key]['pengarang'] = ($lists[$key]['idpengarang'])? (implode(', ', $this->detpengarang_m->get_set($value[$this->alias_isbn]))) : "";
 		}
 		return $lists;
 	}
@@ -151,12 +155,20 @@ class Buku_model extends CI_Model
 	public function update($isbn, $newdata)
 	{
 		$this->isbn = $isbn;
-		$prepdata = array(
-			$this->field_isbn = $newdata[$this->alias_isbn],
-			$this->field_judul = $newdata[$this->alias_judul],
-			$this->field_thn_terbit = $newdata[$this->alias_thn_terbit],
-			$this->field_idpenerbit = $newdata[$this->alias_idpenerbit]
-		);
+		$prepdata = array();
+		if (isset($newdata[$this->alias_isbn])) {
+			$prepdata[$this->field_isbn] = $newdata[$this->alias_isbn];
+		}
+		if (isset($newdata[$this->alias_judul])) {
+			$prepdata[$this->field_judul] = $newdata[$this->alias_judul];
+		}
+		if (isset($newdata[$this->alias_thn_terbit])) {
+			$prepdata[$this->field_thn_terbit] = $newdata[$this->alias_thn_terbit];
+		}
+		if (isset($newdata[$this->alias_idpenerbit])) {
+			$prepdata[$this->field_idpenerbit] = $newdata[$this->alias_idpenerbit];
+		}
+		
 		return $this->update_data($prepdata);
 	}
 
@@ -164,6 +176,47 @@ class Buku_model extends CI_Model
 	{
 		$this->isbn = $isbn;
 		return $this->delete_data();
+	}
+
+	public function get_field($fieldalias)
+	{
+		$field = null;
+		switch ($fieldalias) {
+			case $this->alias_isbn:
+				$field = $this->field_isbn;
+				break;
+			case $this->alias_idpenerbit:
+				$field = $this->field_idpenerbit;
+				break;
+			case $this->alias_judul:
+				$field = $this->field_judul;
+				break;
+			case $this->alias_thn_terbit:
+				$field = $this->field_thn_terbit;
+				break;
+			
+			default:
+				return null;
+				break;
+		}
+		return $this->get_fielddata($field);
+	}
+
+	public function search_word($word)
+	{
+		$q = $this->db->like($this->field_judul, $word, 'both')->get($this->table)->result();
+		foreach ($q as $key => $value) {
+			$q[$key]->penerbit = $this->penerbit_m->search('id', $value->{$this->field_idpenerbit}, 'nama')[0];
+			$q[$key]->genre = $this->genre_m->search('id', $value->{$this->field_idgenre}, 'nama')[0];
+			$q[$key]->idpengarang = $this->detpengarang_m->search('isbn', $value->{$this->field_isbn}, 'idpengarang');
+			$q[$key]->pengarang = ($q[$key]->idpengarang)? (implode(', ', $this->detpengarang_m->get_set($value->{$this->field_isbn}))) : "";
+		}
+
+		if ($q) {
+			return $q;
+		} else {
+			return null;
+		}
 	}
 	// end represent
 
@@ -225,5 +278,18 @@ class Buku_model extends CI_Model
 	{
 		return $this->db->delete($this->table, array($this->field_isbn => $this->isbn));
 	}
+
+	private function get_fielddata($field)
+	{
+		$result = $this->db->select($field)->from($this->table)->get()->result();
+		$data = array();
+		foreach ($result as $key => $value) {
+			$this->{$field} = $value->{$field};
+			$data[] = $this->reconstruct($field);
+		}
+		return $data;
+	}
+
+	
 	// end query
 }

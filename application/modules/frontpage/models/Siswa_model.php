@@ -6,20 +6,28 @@ class Siswa_model extends CI_Model
 {
 	// variabel menampung nama tabel database
 	private $table = 'siswa';
+	private $history = 'history_itembuku';
 
-	private $nisn = null;
+	private $nis = null;
 	private $nama = null;
+	private $idkelas = null;
 	private $password = null;
 
 	// variabel menampung nama field/atribut
-	private $field_nisn = "nisn";
+	private $field_nis = "nis";
 	private $field_nama = "nama_siswa";
+	private $field_idkelas = "id_kelas";
 	private $field_password = "password";
 
 	// variabel menampung nama baru (altering) field/atribut
-	private $newprop_nisn = "nisn";
-	private $newprop_nama = "nama";
-	private $newprop_password = "password";
+	private $alias_nis = "nis";
+	private $alias_nama = "nama";
+	private $alias_idkelas = "idkelas";
+	private $alias_password = "password";
+
+	private $options = [
+		'cost' => COST_HASHING
+	];
 
 	function __construct()
 	{
@@ -35,8 +43,8 @@ class Siswa_model extends CI_Model
 	private function reconstruct($field = null)
 	{
 		switch ($field) {
-			case $this->field_nisn:
-				return $this->nisn;
+			case $this->field_nis:
+				return $this->nis;
 				break;
 			case $this->field_nama:
 				return $this->nama;
@@ -44,12 +52,15 @@ class Siswa_model extends CI_Model
 			case $this->field_password:
 				return $this->password;
 				break;
+			case $this->field_idkelas:
+				return $this->idkelas;
 			
 			default:
 				return array(
-					$this->newprop_nisn = $this->nisn,
-					$this->newprop_nama = $this->nama,
-					$this->newprop_password = $this->password
+					$this->alias_nis => $this->nis,
+					$this->alias_nama => $this->nama,
+					$this->alias_idkelas => $this->idkelas,
+					$this->alias_password => $this->password
 				);
 				break;
 		}
@@ -61,9 +72,9 @@ class Siswa_model extends CI_Model
 		return $this->all();
 	}
 
-	public function verify($nisn, $password)
+	public function verify($nis, $password)
 	{
-		$existing_password = $this->search($this->field_nisn, $nisn, $this->field_password);
+		$existing_password = $this->search($this->field_nis, $nis, $this->field_password);
 		if ($existing_password) {
 			if (password_verify($password, $existing_password)) {
 				return true;
@@ -80,11 +91,14 @@ class Siswa_model extends CI_Model
 		$field = null;
 		$returnfield = null;
 		switch ($search_field) {
-			case $this->newprop_nisn:
-				$field = $this->field_nisn;
+			case $this->alias_nis:
+				$field = $this->field_nis;
 				break;
-				case $this->newprop_nama:
+			case $this->alias_nama:
 				$field = $this->field_nama;
+				break;
+			case $this->alias_idkelas:
+				$field = $this->field_idkelas;
 				break;
 			
 			default:
@@ -92,14 +106,17 @@ class Siswa_model extends CI_Model
 				break;
 		}
 		switch ($return_field) {
-			case $this->newprop_nisn:
-				$returnfield = $this->field_nisn;
+			case $this->alias_nis:
+				$returnfield = $this->field_nis;
 				break;
-			case $this->newprop_nama:
+			case $this->alias_nama:
 				$returnfield = $this->field_nama;
 				break;
-			case $this->newprop_password:
+			case $this->alias_password:
 				$returnfield = $this->field_password;
+				break;
+			case $this->alias_idkelas:
+				$returnfield = $this->field_idkelas;
 				break;
 			
 			default:
@@ -109,18 +126,56 @@ class Siswa_model extends CI_Model
 		return $this->search_data($field, $value, $returnfield);
 	}
 
-	public function insert($nisn, $nama, $password)
+	public function insert($newdata)
 	{
-		$options = [
-			'cost' => COST_HASHING
-		];
-		$hashed = password_hash($password, PASSWORD_DEFAULT, $options);
-		
-		$this->nisn = $nisn;
-		$this->nama = $nama;
-		$this->password = $hashed;
+		if ($this->search_data($this->field_nis, $newdata[$this->alias_nis])) {
+			return "NIS telah ada";
+		} else {
+			$this->nis = $newdata[$this->alias_nis];
+			$this->nama = $newdata[$this->alias_nama];
+			$this->idkelas = $newdata[$this->alias_idkelas];
+			$this->password = password_hash($newdata[$this->alias_password], PASSWORD_DEFAULT, $this->options);
 
-		return $this->insert_data();
+			return $this->insert_data();
+		}
+	}
+
+	public function update($nis, $newdata)
+	{
+		$prep_newdata = array();
+		$existing_nis = $this->search_data($this->field_nis, $nis);
+		if ($existing_nis) {
+			if (isset($newdata[$this->alias_nama])) {
+				$prep_newdata[$this->field_nama] = $newdata[$this->alias_nama];
+			}
+			if (isset($newdata[$this->alias_idkelas])) {
+				$prep_newdata[$this->field_idkelas] = $newdata[$this->alias_idkelas];
+			}
+			if ($newdata[$this->alias_password]) {
+				$prep_newdata = array_merge($prep_newdata, array(
+					$this->field_password => password_hash(
+						$newdata[$this->alias_password],
+						PASSWORD_DEFAULT,
+						$this->options
+					)
+				)
+			);
+			}
+			return $this->update_data($prep_newdata);
+		} else {
+			return null;
+		}
+	}
+
+	public function delete($nis)
+	{
+		$this->nis = $nis;
+		$existing_nis = $this->search_data($this->field_nis, $nis);
+		if ($existing_nis) {
+			return $this->delete_data();
+		} else {
+			return null;
+		}
 	}
 	// end represent
 
@@ -134,21 +189,23 @@ class Siswa_model extends CI_Model
 		$result_set = $this->db->get($this->table)->result();
 		$data = array();
 		foreach ($result_set as $key => $value) {
-			$this->nisn = $value->{$this->field_nisn};
+			$this->nis = $value->{$this->field_nis};
 			$this->nama = $value->{$this->field_nama};
+			$this->idkelas = $value->{$this->field_idkelas};
 			$this->password = $value->{$this->field_password};
 			$data[] = $this->reconstruct();
 		}
 		return $data;
 	}
 
-	private function search_data($field, $search_value, $returnfield)
+	private function search_data($field, $search_value, $returnfield = null)
 	{
 		$result_set = $this->db->get_where($this->table, array($field => $search_value))->result();
 		if ($result_set) {
 			foreach ($result_set as $key => $value) {
-				$this->nisn = $value->{$this->field_nisn};
+				$this->nis = $value->{$this->field_nis};
 				$this->nama = $value->{$this->field_nama};
+				$this->idkelas = $value->{$this->field_idkelas};
 				$this->password = $value->{$this->field_password};
 			}
 			return $this->reconstruct($returnfield);
@@ -160,14 +217,28 @@ class Siswa_model extends CI_Model
 	private function insert_data()
 	{
 		$data = array(
-			$this->field_nisn => $this->nisn,
+			$this->field_nis => $this->nis,
 			$this->field_nama => $this->nama,
-			$this->field_password => $this->password
+			$this->field_password => $this->password,
+			$this->field_idkelas => $this->idkelas
 		);
+		return $this->db->insert($this->table, $data);
+	}
 
-		// $result = $this->db->set($data)->get_compiled_insert($this->table);
-		$result = $this->db->insert($this->table, $data);
-		return $this->password;
+	private function update_data($newdata)
+	{
+		return $this->db->update($this->table, $newdata, array($this->field_nis => $this->nis));
+	}
+
+	private function delete_data()
+	{
+		return $this->db->delete($this->table, array($this->field_nis => $this->nis));
+
+	}
+
+	public function history_peminjaman($nis)
+	{
+		return $this->db->order_by('idpinjam', 'desc')->get_where($this->history, array('nis' => $nis))->result();
 	}
 	// end query
 }

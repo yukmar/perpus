@@ -6,6 +6,8 @@ class Itembuku_model extends CI_Model
 {
 	// variabel menampung nama tabel database
 	private $table = 'item_buku';
+	private $history_item = 'history_itembuku';
+	private $info_item = 'info_itembuku';
 
 	// variabel menampung nilai field/atribut
 	private $id = null;
@@ -18,6 +20,7 @@ class Itembuku_model extends CI_Model
 	private $field_isbn = "isbn";
 	private $field_harga = "harga";
 	private $field_tgl_beli = "tgl_pembelian";
+	private $field_idpinjam = "idpinjam";
 
 	// variabel menampung nama baru (altering) field/atribut 
 	private $alias_id = "id";
@@ -127,6 +130,23 @@ class Itembuku_model extends CI_Model
 		return $this->insert_data();
 	}
 
+	public function update($idbukuold, $newdata)
+	{
+		$prep_data = array(
+			$this->field_id => $newdata[$this->alias_id],
+			$this->field_harga => $newdata[$this->alias_harga],
+			$this->field_tgl_beli => $newdata[$this->alias_tgl_beli]
+		);
+
+		return $this->update_data($idbukuold, $prep_data);
+	}
+
+	public function delete($idbuku)
+	{
+		$this->id = $idbuku;
+		return $this->delete_data();
+	}
+
 	public function count($field_alias = null, $value= null)
 	{
 		$field = null;
@@ -180,13 +200,15 @@ class Itembuku_model extends CI_Model
 	{
 		$result_set = $this->db->get_where($this->table, array($field => $value))->result();
 		if ($result_set) {
+			$data = array();
 			foreach ($result_set as $key => $value) {
 				$this->id = $value->{$this->field_id};
 				$this->isbn  = $value->{$this->field_isbn };
 				$this->harga = $value->{$this->field_harga};
 				$this->tgl_beli = $value->{$this->field_tgl_beli};
+				$data[] = $this->reconstruct($returnfield);
 			}
-			return $this->reconstruct($returnfield);
+			return $data;
 		} else {
 			return null;
 		}
@@ -200,7 +222,22 @@ class Itembuku_model extends CI_Model
 			$this->field_harga => $this->harga,
 			$this->field_tgl_beli => $this->tgl_beli
 		);
-		return $this->db->insert($this->table, $newdata);
+		try {
+			return $this->db->insert($this->table, $newdata);
+		} catch (Exception $e) {
+			$e->getMessage();
+			$this->db->error();
+		}
+	}
+
+	private function update_data($oldid, $newdata)
+	{
+		return $this->db->update($this->table, $newdata, array($this->field_id => $oldid));
+	}
+
+	private function delete_data()
+	{
+		return $this->db->delete($this->table, array($this->field_id => $this->id));
 	}
 
 	public function count_data($field = null, $value = null)
@@ -210,6 +247,31 @@ class Itembuku_model extends CI_Model
 		} else {
 			return $this->db->count_all($this->table);
 		}
+	}
+
+	public function get_allhistory()
+	{
+		return $this->db->order_by($this->field_idpinjam, 'DESC')->get($this->history_item)->result();
+	}
+
+	public function history($idbuku)
+	{
+		return $this->db->order_by($this->field_idpinjam, 'DESC')->get_where($this->history_item, array('idbuku' => $idbuku))->result();
+	}
+
+	public function tagihan_buku($nis)
+	{
+		return $this->db->order_by($this->field_idpinjam, 'DESC')->get_where($this->history_item, array('nis' => $nis, 'tgl_kembali' => null))->result();
+	}
+
+	public function last_status($idbuku)
+	{
+		return $this->db->order_by('idpinjam', 'DESC')->limit(1)->get_where($this->history_item, array('idbuku' => $idbuku))->result();
+	}
+
+	public function info($idbuku)
+	{
+		return $this->db->get_where($this->info_item, array('idbuku' => $idbuku))->result();
 	}
 	// end query
 }

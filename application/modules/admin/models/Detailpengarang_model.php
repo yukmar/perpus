@@ -87,10 +87,47 @@ class Detailpengarang_model extends CI_Model
 	{
 		$list_idpengarang = $this->search_data($this->field_isbn, $isbn, $this->field_idpengarang);
 		$list_pengarang = array();
-		foreach ($list_idpengarang as $key => $value) {
-			$list_pengarang[] = $this->pengarang_m->search('id', $value, 'nama')[0];
+		if ($list_idpengarang) {
+			foreach ($list_idpengarang as $key => $value) {
+				$list_pengarang[] = $this->pengarang_m->search('id', $value, 'nama')[0];
+			}
+			return $list_pengarang;
+		} else {
+			echo "ada kesalahan silahkan menghubungi admin";
+			var_dump($list_idpengarang);
 		}
-		return $list_pengarang;
+	}
+
+	public function insert($newdata)
+	{
+		$this->idpengarang = $newdata[$this->alias_idpengarang];
+		$this->isbn = $newdata[$this->alias_isbn];
+
+		return $this->insert_data();
+	}
+
+	public function update($conditions, $newdata)
+	{
+		$this->idpengarang = $conditions[$this->alias_idpengarang];
+		$this->isbn = $conditions[$this->alias_isbn];
+
+		$prep_data = null;
+		if (isset($newdata[$this->alias_idpengarang])) {
+			$prep_data[$this->field_idpengarang] = $newdata[$this->alias_idpengarang];
+		}
+		if (isset($newdata[$this->alias_isbn])) {
+			$prep_data[$this->field_isbn] = $newdata[$this->alias_isbn];
+		}
+
+		var_dump($prep_data, $this->idpengarang, $this->isbn);
+
+		// return $this->update_data($prep_data);
+	}
+
+	public function delete($isbn)
+	{
+		$this->isbn = $isbn;
+		return $this->delete_data();
 	}
 	// end represent
 	
@@ -121,6 +158,31 @@ class Detailpengarang_model extends CI_Model
 		} else {
 			return null;
 		}
+	}
+
+	private function insert_data()
+	{
+		$prep_data = array(
+			$this->field_idpengarang => $this->idpengarang,
+			$this->field_isbn => $this->isbn
+		);
+		return $this->db->insert($this->table, $prep_data);
+	}
+
+	public function update_data($newdata)
+	{
+		// UPDATE `detail_pengarangbuku` SET `id_pengarang`='2' WHERE `id_pengarang` = '1' AND `isbn` = '5010580803133' 
+		$prep_conditions = array(
+			$this->field_idpengarang => $this->idpengarang,
+			$this->field_isbn => $this->isbn
+		);
+
+		return $this->db->update($this->table, $newdata, $prep_conditions);
+	}
+
+	private function delete_data()
+	{
+		return $this->db->delete($this->table, array($this->field_isbn => $this->isbn));
 	}
 	// end query
 }

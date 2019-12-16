@@ -1,0 +1,15 @@
+@font-face {
+	font-family: 'Playfair Display';
+	font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Playfair Display Regular'), local('PlayfairDisplay-Regular'), url('../font/Playfair_Display/PlayfairDisplay-Regular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url('../font/Open_Sans/OpenSans-Regular.ttf') format('truetype');
+}

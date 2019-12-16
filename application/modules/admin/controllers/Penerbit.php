@@ -4,11 +4,17 @@
  */
 class Penerbit extends CI_Controller
 {
-	
+	private $tipe=null;
+	private $iduser = null;
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('Penerbit_model', 'penerbit_m');
+		$this->iduser = $this->session->userdata('iduser');
+		if ($this->session->userdata('tipe') !== 'petugas') {
+			$this->session->sess_destroy();
+			redirect(site_url());
+		}
 	}
 
 	public function index()
@@ -20,8 +26,8 @@ class Penerbit extends CI_Controller
 	public function add()
 	{
 		$nama = $this->input->post('txtnama');
-		$kota = $this->input->post('txtkota');
-		$result = $this->penerbit_m->insert($nama, $kota);
+		$alamat = $this->input->post('txtalamat');
+		$result = $this->penerbit_m->insert($nama, $alamat);
 		if ($result) {
 			redirect(site_url('manage-penerbit'));
 		} else {
@@ -32,7 +38,7 @@ class Penerbit extends CI_Controller
 	{
 		$id = $this->input->get('no');
 		$newdata['nama'] = $this->input->post('txtnama');
-		$newdata['kota'] = $this->input->post('txtkota');
+		$newdata['alamat'] = $this->input->post('txtalamat');
 		
 		$result = $this->penerbit_m->update($id, $newdata);
 		if ($result) {

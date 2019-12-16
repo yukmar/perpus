@@ -17,9 +17,9 @@ class Petugas_model extends CI_Model
 	private $field_password = "password";
 
 	// variabel menampung nama baru (altering) field/atribut
-	private $newprop_nip = "nip";
-	private $newprop_nama = "nama";
-	private $newprop_password = "password";
+	private $alias_nip = "nip";
+	private $alias_nama = "nama";
+	private $alias_password = "password";
 
 	private $options = [
 		'cost' => COST_HASHING
@@ -51,9 +51,9 @@ class Petugas_model extends CI_Model
 			
 			default:
 				return array(
-					$this->newprop_nip => $this->nip,
-					$this->newprop_nama => $this->nama,
-					$this->newprop_password => $this->password
+					$this->alias_nip => $this->nip,
+					$this->alias_nama => $this->nama,
+					$this->alias_password => $this->password
 				);
 				break;
 		}
@@ -85,10 +85,10 @@ class Petugas_model extends CI_Model
 		$returnfield = null;
 
 		switch ($field_alias) {
-			case $this->newprop_nip:
+			case $this->alias_nip:
 				$searchfield = $this->field_nip;
 				break;
-			case $this->newprop_nama:
+			case $this->alias_nama:
 				$searchfield = $this->field_nama;
 				break;
 			
@@ -98,13 +98,13 @@ class Petugas_model extends CI_Model
 		}
 
 		switch ($returnfield_alias) {
-			case $this->newprop_nip:
+			case $this->alias_nip:
 				$returnfield = $this->field_nip;
 				break;
-			case $this->newprop_nama:
+			case $this->alias_nama:
 				$returnfield = $this->field_nama;
 				break;
-				case $this->newprop_password:
+				case $this->alias_password:
 				$returnfield = $this->field_password;
 				break;
 			
@@ -116,28 +116,30 @@ class Petugas_model extends CI_Model
 		return $this->search_data($searchfield, $search_value, $returnfield);
 	}
 
-	public function insert($nip, $nama, $password)
+	public function insert($newdata)
 	{
-		$hashed = password_hash($password, PASSWORD_DEFAULT, $this->options);
-		
-		$this->nip = $nip;
-		$this->nama = $nama;
-		$this->password = $hashed;
+		$this->nip = $newdata[$this->alias_nip];
+		$this->nama = $newdata[$this->alias_nama];
+		$this->password = password_hash($newdata[$this->alias_password], PASSWORD_DEFAULT, $this->options);
 
 		return $this->insert_data();
 	}
 
 	public function update($nip, $newdata)
 	{
+		$prep_newdata = array();
 		$existing_nip = $this->search_data($this->field_nip, $nip);
 		if ($existing_nip) {
-			$prep_newdata = array(
-				$this->field_nama => $newdata[$this->newprop_nama]
-			);
-			if ($newdata[$this->newprop_password]) {
+			if (isset($newdata[$this->alias_nip])) {
+				$prep_newdata[$this->field_nip] = $newdata[$this->alias_nip];
+			}
+			if (isset($newdata[$this->alias_nama])) {
+				$prep_newdata[$this->field_nama] = $newdata[$this->alias_nama];
+			}
+			if (isset($newdata[$this->alias_password])) {
 				$prep_newdata = array_merge($prep_newdata, array(
 					$this->field_password => password_hash(
-						$newdata[$this->newprop_password],
+						$newdata[$this->alias_password],
 						PASSWORD_DEFAULT,
 						$this->options
 					)
@@ -152,7 +154,7 @@ class Petugas_model extends CI_Model
 
 	public function delete($nip)
 	{
-		$this->nisn = $nip;
+		$this->nis = $nip;
 		$existing_nip = $this->search_data($this->field_nip, $nip);
 		if ($existing_nip) {
 			return $this->delete_data();
@@ -182,7 +184,6 @@ class Petugas_model extends CI_Model
 	private function search_data($field, $value, $return_field = null)
 	{
 		$result_set = $this->db->get_where($this->table, array($field => $value))->result();
-		var_dump($field, $value);
 		if ($result_set) {
 			foreach ($result_set as $key => $value) {
 				$this->nip = $value->{$this->field_nip};

@@ -95,7 +95,7 @@ header{
 
 /* modal login */
 
-.modal__login {
+.modal__login , .modal__daftar {
     position: fixed;
     left: 0;
     top: 0;
@@ -109,7 +109,7 @@ header{
     z-index: 1000;
 }
 
-.modal__login-content{
+.modal__login-content, .modal__daftar-content{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -119,7 +119,7 @@ header{
     width: 24rem;
 }
 
-.modal__login-close {
+.modal__login-close , .modal__daftar-close {
     float: right;
     width: 1.5rem;
     line-height: 1.5rem;
@@ -130,17 +130,17 @@ header{
     margin-bottom: 20px;
 }
 
-.modal__login-close:hover {
+.modal__login-close:hover , .modal__daftar-close:hover {
     background-color: darkgray;
 }
 
-.modal__login-show {
+.modal__login-show , .modal__daftar-show {
     opacity: 1;
     visibility: visible;
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
-.modal__login-form-control{
+.modal__login-form-control, .modal__daftar-form-control{
     width: 100%;
     padding: 10px;
     border: none;
@@ -149,7 +149,7 @@ header{
     outline: none;
     margin-top: 20px;
 }
-.modal__login-btn{
+.modal__login-btn, .modal__daftar-btn{
     width: 100%;
     color: #fff;
     border:none;

@@ -9,17 +9,17 @@ class Penerbit_model extends CI_Model
 
 	private $id = null;
 	private $nama = null;
-	private $kota = null;
+	private $alamat = null;
 
 	// variabel menampung nama field/atribut
 	private $field_id = "id_penerbit";
 	private $field_nama = "nama_penerbit";
-	private $field_kota = "kota";
+	private $field_alamat = "alamat";
 
 	// variabel menampung nama baru (altering) field/atribut
 	private $alias_id = "id";
 	private $alias_nama = "nama";
-	private $alias_kota = "kota";
+	private $alias_alamat = "alamat";
 
 	function __construct()
 	{
@@ -41,15 +41,15 @@ class Penerbit_model extends CI_Model
 			case $this->field_nama:
 				return $this->nama;
 				break;
-			case $this->field_kota:
-				return $this->kota;
+			case $this->field_alamat:
+				return $this->alamat;
 				break;
 			
 			default:
 				return array(
 					$this->alias_id => $this->id,
 					$this->alias_nama => $this->nama,
-					$this->alias_kota => $this->kota
+					$this->alias_alamat => $this->alamat
 				);
 				break;
 		}
@@ -73,8 +73,8 @@ class Penerbit_model extends CI_Model
 			case $this->alias_nama:
 				$field = $this->field_nama;
 				break;
-				case $this->alias_kota:
-				$field = $this->field_kota;
+				case $this->alias_alamat:
+				$field = $this->field_alamat;
 				break;
 			
 			default:
@@ -89,8 +89,8 @@ class Penerbit_model extends CI_Model
 			case $this->alias_nama:
 				$returnfield = $this->field_nama;
 				break;
-			case $this->alias_kota:
-				$returnfield = $this->field_kota;
+			case $this->alias_alamat:
+				$returnfield = $this->field_alamat;
 				break;
 			
 			default:
@@ -101,10 +101,10 @@ class Penerbit_model extends CI_Model
 		return $this->search_data($field, $search_value, $returnfield);
 	}
 
-	public function insert($nama, $kota)
+	public function insert($nama, $alamat)
 	{
 		$this->nama = $nama;
-		$this->kota = $kota;
+		$this->alamat = $alamat;
 
 		return $this->insert_data();
 	}
@@ -114,7 +114,7 @@ class Penerbit_model extends CI_Model
 		$this->id = $id;
 		$prepdata = array(
 			$this->field_nama => $newdata[$this->alias_nama],
-			$this->field_kota => $newdata[$this->alias_kota]
+			$this->field_alamat => $newdata[$this->alias_alamat]
 		);
 		return $this->update_data($prepdata);
 	}
@@ -138,7 +138,7 @@ class Penerbit_model extends CI_Model
 		foreach ($result_set as $key => $value) {
 			$this->id = $value->{$this->field_id};
 			$this->nama = $value->{$this->field_nama};
-			$this->kota = $value->{$this->field_kota};
+			$this->alamat = $value->{$this->field_alamat};
 			$data[] = $this->reconstruct();
 		}
 		return $data;
@@ -152,7 +152,7 @@ class Penerbit_model extends CI_Model
 			foreach ($result_set as $key => $value) {
 				$this->id = $value->{$this->field_id};
 				$this->nama = $value->{$this->field_nama};
-				$this->kota = $value->{$this->field_kota};
+				$this->alamat = $value->{$this->field_alamat};
 				$data[] = $this->reconstruct($returnfield);
 			}
 			return $data;
@@ -165,7 +165,7 @@ class Penerbit_model extends CI_Model
 	{
 		$newdata = array(
 			$this->field_nama => $this->nama,
-			$this->field_kota => $this->kota
+			$this->field_alamat => $this->alamat
 		);
 		return $this->db->insert($this->table, $newdata);
 	}
