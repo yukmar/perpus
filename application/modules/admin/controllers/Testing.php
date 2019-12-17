@@ -62,7 +62,7 @@ class Testing extends CI_Controller
 		// $date2 = new DateTime();
 		// $result = date_diff($date2, $date1)->format("%R%a");
 		
-		$q = $this->genre_m->get_all();
+		$q = $this->item_m->search('isbn', '1234567890123');
 		echo json_encode($q);
 		
 	}

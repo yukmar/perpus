@@ -39,16 +39,18 @@ class Item_buku extends CI_Controller
 		$data['tahun'] = $infobuku['tahunterbit'];
 		$data['penerbit'] = $this->penerbit_m->search('id', $infobuku['idpenerbit'], 'nama')[0];
 
-		foreach ($data['item'] as $key => $value) {
-			$status = null;
-			$pernah_dipinjam = $this->detpinjam_m->search('idbuku', $value['id']);
-			if ($pernah_dipinjam) {
-				$tgl_kembali = $this->item_m->last_status($value['id'])[0]->tgl_kembali;
-				$status = ($tgl_kembali) ? "tersedia" : "dipinjam";
-			} else {
-				$status = "tersedia";
+		if ($data['item']) {
+			foreach ($data['item'] as $key => $value) {
+				$status = null;
+				$pernah_dipinjam = $this->detpinjam_m->search('idbuku', $value['id']);
+				if ($pernah_dipinjam) {
+					$tgl_kembali = $this->item_m->last_status($value['id'])[0]->tgl_kembali;
+					$status = ($tgl_kembali) ? "tersedia" : "dipinjam";
+				} else {
+					$status = "tersedia";
+				}
+				$data['item'][$key]['status'] = $status;
 			}
-			$data['item'][$key]['status'] = $status;
 		}
 
 		$this->load->view('Itembuku_v', $data);
@@ -56,10 +58,11 @@ class Item_buku extends CI_Controller
 
 	public function create()
 	{
+		// format date: 2019-11-27
 		$isbn = $this->input->post('isbn');
 		$newdata['id'] = $this->input->post('tambahkodebuku');
 		$newdata['tgl_beli'] = $this->input->post('tambahtglbeli');
-		$newdata['harga'] = $this->input->post('tambahharga');
+		$newdata['harga'] = (int)$this->input->post('tambahharga');
 		$newdata['isbn'] = $isbn;
 
 		$exist_item = $this->item_m->search('id', $newdata['id']);
@@ -85,7 +88,7 @@ class Item_buku extends CI_Controller
 
 		$result = $this->item_m->update($kodeold, $newdata);
 		if ($result) {
-			redirect(site_url("item-buku/?isbn=$isbn"));
+			redirect(site_url("item-buku/?isbn=".$isbn));
 		} else {
 			echo "terjadi kesalahan, mohon menghubungi admin";
 		}
@@ -111,5 +114,16 @@ class Item_buku extends CI_Controller
 		$data['info'] = $info_item;
 		$data['data'] = $history_item;
 		$this->load->view('Detailitem_view', $data);
+	}
+
+	public function checkid()
+	{
+		$id = $this->input->get('kode');
+		$result = $this->item_m->search('id', $id);
+		if ($result) {
+			echo json_encode(array("ada" => "Kode Buku telah ada"));
+		} else {
+			echo json_encode(array("tidak" => "Kode Buku belum ada"));
+		}
 	}
 }

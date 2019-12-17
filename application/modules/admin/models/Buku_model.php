@@ -90,7 +90,7 @@ class Buku_model extends CI_Model
 		return $lists;
 	}
 
-	public function search($field_alias, $search_value, $returnfield_alias = nul883952488698869125l)
+	public function search($field_alias, $search_value, $returnfield_alias = null)
 	{
 		$field = null;
 		$returnfield = null;
@@ -148,6 +148,7 @@ class Buku_model extends CI_Model
 		$this->judul = $newdata[$this->alias_judul];
 		$this->thn_terbit = $newdata[$this->alias_thn_terbit];
 		$this->idpenerbit = $newdata[$this->alias_idpenerbit];
+		$this->idgenre = $newdata[$this->alias_idgenre];
 		$existedisbn = $this->search_data($this->field_isbn, $this->isbn);
 		if ($existedisbn) {
 			// return "info buku telah ada";
@@ -256,7 +257,8 @@ class Buku_model extends CI_Model
 			$this->field_isbn => $this->isbn,
 			$this->field_judul => $this->judul,
 			$this->field_thn_terbit => $this->thn_terbit,
-			$this->field_idpenerbit => $this->idpenerbit
+			$this->field_idpenerbit => $this->idpenerbit,
+			$this->field_idgenre => $this->idgenre
 		);
 		return $this->db->insert($this->table, $newdata);
 	}

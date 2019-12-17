@@ -1,4 +1,4 @@
-// (function() {	
+(function() {	
 var siswa = {
 	prop: {
 		nis: null,
@@ -212,39 +212,42 @@ var petugas = {
 var kelas = {
 	doms: function() {
 		this.$table = $('#table-kelas');
+		this.$addForm = $('.loginform');
+		this.$addBtn = $('#btn-addkelas');
+		this.$addClose = this.$addForm.find('span:first');
+		this.$editForm = $('.daftarform');
+		this.$editBtn = $('.btn-kelas');
+		this.$editBox = this.$editForm.find("input[name='editkelas']");
+		this.$editHid = this.$editForm.find("input[type='hidden']");
+		this.$editClose = this.$editForm.find('span:first');
 	},
 	init: function() {
 		this.doms();
 		this.$table.DataTable();
+		this.events();
+	},
+	events: function() {
+		this.$addBtn.click($.proxy(this.toggleModal.bind(this), null, this.$addBtn.data('role')));
+		this.$addClose.click($.proxy(this.toggleModal.bind(this), null, this.$addClose.data('role')));
+		this.$editBtn.click($.proxy(this.toggleModal.bind(this), null, this.$editBtn.data('role')));
+		this.$editClose.click($.proxy(this.toggleModal.bind(this), null, this.$editClose.data('role')));
+	},
+	toggleModal: function(key, current) {
+		switch(key){
+			case 'tambah':
+				this.$addForm.toggleClass('modal__login-show');
+				break;
+			case 'edit':
+				this.$editForm.toggleClass('modal__daftar-show');
+				this.$editBox.val($(current.target).closest('tr').find('td:eq(1)').text());
+				this.$editHid.val($(current.target).data('kelas'));
+				break;
+		}
 	}
-}
-
-var modalLogin = document.querySelector(".loginform");
-var modalDaftar = document.querySelector(".daftarform");
-
-function toggleModal(key) {
-  switch(key){
-    case 'login':
-      modalLogin.classList.toggle("modal__login-show");
-      break;
-
-    case 'daftar':
-      modalDaftar.classList.toggle("modal__daftar-show");
-      $('#tedkelas').val(event.target.closest('tr').children[1].innerHTML);
-      $('#hidkelas').val(event.target.getAttribute('data-kelas'));
-      break;
-
-    default:
-      break;
-  }
-}
-
-function windowOnClick(event) {
-  toggleModal('close');
 }
 
 siswa.init();
 petugas.init();
 kelas.init();
 
-// })();
+})();

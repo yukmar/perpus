@@ -31,7 +31,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn btn-primary" onclick="toggleModal('tambah')">TAMBAH ITEM BUKU</button>
+			<button class="btn btn-primary" id="btn-tambah" data-role="tambah">TAMBAH ITEM BUKU</button>
   		</div>
   		</div>
   		<div class="row">
@@ -48,7 +48,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($item as $key => $value) { ?>
+						<?php if ($item) { 
+						foreach ($item as $key => $value) { ?>
 						<tr>
 							<td><?=$key+1?></td>
 							<td><a href="<?=site_url('item-buku/detail/?no=').$value['id']?>"><?=$value['id']?></a></td>
@@ -57,12 +58,13 @@
 							<td><?=$value['status']?></td>
 							<td>
 								<div class="btn-group" role="group">
-									<button class="btn btn-outline-success" onclick="toggleModal('edit')">edit</button>
+									<button class="btn btn-outline-success btn-edit" data-role="edit">edit</button>
 									<a class="btn btn-outline-danger" href="<?=site_url('item-buku/delete/?isbn='.$isbn.'&no='.$value['id'])?>">delete</a>
 								</div>
 							</td>
 						</tr>
-						<?php }	?>
+						<?php }	
+						} ?>
 					</tbody>
 				</table>
   			</div>
@@ -85,43 +87,45 @@
 
 <div class="modal__login loginform" id="fedit">
 	<div class="modal__login-content">
-		<span class="modal__login-close" onclick="toggleModal('edit')">×</span>
+		<span class="modal__login-close" data-role="edit">×</span>
 		<form action="<?=site_url('item-buku/edit')?>" method="post">		
 			<label>FORM EDIT</label>
 			<div class="modal__login-forms-group">
 				<span class="modal__login-forms-control">Kode buku: </span>
-				<input type="text" placeholder="Masukkan Kode Buku" class="modal__login-forms-control" name="txtkodebuku" id="tkodebuku" />
+				<input type="text" placeholder="Masukkan Kode Buku" class="modal__login-forms-control" name="txtkodebuku" />
 			</div>
+      <small class="form-text text-danger"></small>
 			<div class="modal__login-forms-group">
 				<span class="modal__login-forms-control">Tanggal Pembelian: </span>
-				<input type="date" placeholder="Masukkan Tanggal Pembelian" class="modal__login-forms-control" name="txttglbeli" id="ttglbeli" />
+				<input type="date" placeholder="Masukkan Tanggal Pembelian" class="modal__login-forms-control" name="txttglbeli" />
 			</div>
 			<div class="modal__login-forms-group">
 				<span class="modal__login-forms-control">Harga: </span>
-				<input type="text" placeholder="Masukkan Harga" class="modal__login-forms-control" name="txtharga" id="tharga" />
+				<input type="text" placeholder="Masukkan Harga" class="modal__login-forms-control" name="txtharga" />
 			</div>
 			<button type="submit" class="modal__login-btn btn-primary" value="Login">EDIT</button>
-			<input type="hidden" name="kodeold" id="kodeold" />
+			<input type="hidden" name="kodeold"/>
 			<input type="hidden" name="isbn" value="<?=$isbn?>" />
 		</form>
 	</div>
 </div>
 <div class="modal__login loginform" id="ftambah">
 	<div class="modal__login-content">
-		<span class="modal__login-close" onclick="toggleModal('tambah')">×</span>
+		<span class="modal__login-close" data-role="tambah">×</span>
 		<form action="<?=site_url('item-buku/add')?>" method="post">		
 			<label>FORM TAMBAH</label>
 			<div class="modal__login-forms-group">
 				<span class="modal__login-forms-control">Kode buku: </span>
-				<input type="text" placeholder="Masukkan Kode Buku" class="modal__login-forms-control" name="tambahkodebuku" id="tambahkodebuku" />
+				<input type="text" placeholder="Masukkan Kode Buku" class="modal__login-forms-control" name="tambahkodebuku" />
 			</div>
+      <small class="form-text text-danger"></small>
 			<div class="modal__login-forms-group">
 				<span class="modal__login-forms-control">Tanggal Pembelian: </span>
-				<input type="date" placeholder="Masukkan Tanggal Pembelian" class="modal__login-forms-control" name="tambahtglbeli" id="tambahtglbeli" />
+				<input type="date" placeholder="Masukkan Tanggal Pembelian" class="modal__login-forms-control" name="tambahtglbeli" value="0000-00-00"/>
 			</div>
 			<div class="modal__login-forms-group">
 				<span class="modal__login-forms-control">Harga: </span>
-				<input type="text" placeholder="Masukkan Harga" class="modal__login-forms-control" name="tambahharga" id="tambahharga" />
+				<input type="text" placeholder="Masukkan Harga" class="modal__login-forms-control" name="tambahharga" />
 			</div>
 			<button type="submit" class="modal__login-btn btn-primary" value="Login">TAMBAH</button>
 			<input type="hidden" name="isbn" value="<?=$isbn?>" />

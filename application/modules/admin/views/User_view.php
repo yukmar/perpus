@@ -38,7 +38,7 @@
 									<option value="<?=$value['id']?>"><?=$value['nama']?></option>
 									<?php } ?>
 								</select>
-             		<small class="form-text text-primary"><a onclick="toggleModal('login')">tambah kelas</a></small>
+             		<small class="form-text text-primary" id="btn-addkelas" data-role="tambah">tambah kelas</small>
 							</div>
 						</div>
 						<div class="form-group row" id="divpass">
@@ -104,7 +104,7 @@
   							<td><?=$value['total']?></td>
   							<td>
   								<div class="btn-group">
-  									<button class="btn btn-outline-success btn-kelas" data-kelas="<?=$value['id']?>" onclick="toggleModal('daftar')">Ubah</button>
+  									<button class="btn btn-outline-success btn-kelas" data-kelas="<?=$value['id']?>" data-role="edit">Ubah</button>
   									<a href="<?=site_url('manage-user/delete-kelas/?k=').$value['id']?>" class="btn btn-outline-danger" >Hapus</a>
   								</div>
   							</td>
@@ -193,7 +193,7 @@
 
 <div class="modal__login loginform">
   <div class="modal__login-content">
-    <span class="modal__login-close" onclick="toggleModal('login')">×</span>
+    <span class="modal__login-close" data-role="tambah">×</span>
 		<form action="<?=site_url('manage-user/add-kelas')?>" method="post" id="form-login">
 			<label>TAMBAH KELAS</label>
 			<div class="modal__login-forms-group">
@@ -206,12 +206,12 @@
 
 <div class="modal__daftar daftarform">
   <div class="modal__daftar-content">
-    <span class="modal__daftar-close" onclick="toggleModal('daftar')">×</span>
+    <span class="modal__daftar-close" data-role="edit">×</span>
     <form action="<?=site_url('manage-user/edit-kelas/')?>" id="form-daftar" method="post">
       <label>EDIT KELAS</label>
       <div class="modal__daftar-forms-group">
-         <input type="text" class="modal__daftar-forms-control" name="editkelas" id="tedkelas" />
-         <input type="hidden" name="nokelas" id="hidkelas" />
+         <input type="text" class="modal__daftar-forms-control" name="editkelas"/>
+         <input type="hidden" name="nokelas"/>
       </div>
       <small class="form-text text-danger"></small>
       <button type="submit" class="modal__daftar-btn btn-primary" id="btn-daftar">EDIT KELAS</button>

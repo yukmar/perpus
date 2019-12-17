@@ -107,6 +107,7 @@ $route['item-buku/add'] = 'admin/item_buku/create';
 $route['item-buku/edit'] = 'admin/item_buku/edit';
 $route['item-buku/delete'] = 'admin/item_buku/delete';
 $route['item-buku/detail'] = 'admin/item_buku/history';
+$route['item-buku/cekkode'] = 'admin/item_buku/checkid';
 
 $route['peminjaman'] = 'admin/peminjaman';
 $route['peminjaman/pinjam'] = 'admin/peminjaman/create';
