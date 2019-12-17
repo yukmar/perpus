@@ -12,7 +12,8 @@ class Pengembalian extends CI_Controller
 		$this->load->model(array(
 			"Itembuku_model" => "item_m",
 			"Siswa_model" => "siswa_m",
-			"Detailpeminjaman_model" => "detpinjam"
+			"Detailpeminjaman_model" => "detpinjam",
+			"Kelas_model" => 'kelas_m'
 		));
 		$this->iduser = $this->session->userdata('iduser');
 		if ($this->session->userdata('tipe') !== 'petugas') {
@@ -29,10 +30,12 @@ class Pengembalian extends CI_Controller
 	public function cek_tagihan()
 	{
 		$nis = $this->input->post('txtnis');
+		$data_siswa = $this->siswa_m->search('nis', $nis);
+
 		$tagihan_buku['items'] = $this->item_m->tagihan_buku($nis);
 		$tagihan_buku['nis'] = $nis;
-		$tagihan_buku['nama'] = $this->siswa_m->search('nis', $nis, 'nama');
-		$tagihan_buku['kelas'] = $this->siswa_m->search('nis', $nis, 'kelas');
+		$tagihan_buku['nama'] = $data_siswa['nama'];
+		$tagihan_buku['kelas'] = $this->kelas_m->search('id', $data_siswa['idkelas'], 'nama')[0];
 		$denda = null;
 		if ($tagihan_buku['items']) {
 			foreach ($tagihan_buku['items'] as $key => $value) {

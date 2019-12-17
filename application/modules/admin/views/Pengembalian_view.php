@@ -20,20 +20,20 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">NIS</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="txtnis" id="tnis" value="<?php if(isset($nis)){echo $nis;}?>"/>
+              <input type="text" class="form-control" name="txtnis" id="tnis" value="<?php if(isset($nis)){echo $nis;}?>" />
             </div>
           </div>
           <?php if (isset($nama)) {?>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nama Siswa</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="txtnama" value="<?=$nama?>" />
+              <input type="text" class="form-control" name="txtnama" value="<?=$nama?>" disabled/>
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Kelas</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="txtkelas" value="<?=$kelas?>" />
+              <input type="text" class="form-control" name="txtkelas" value="<?=$kelas?>" disabled/>
             </div>
           </div>
           <?php } ?>

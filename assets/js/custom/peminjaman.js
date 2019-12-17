@@ -16,10 +16,11 @@ var $tdaftar = $('#daftar-pinjam tbody');
 
 function cek_buku(e) {
 	event.preventDefault();
+	$tketerangan.text('');
 	$.get(window.location.origin + '/peminjaman/cek-ketersediaan/?no=' + $idbuku.val()).done(function(data) {
 		var result = JSON.parse(data);
 		if (result) {
-			if (result['status'] == 'tersedia' || result['status'] == 'baru') {
+			if ((result['status'] == 'tersedia' || result['status'] == 'baru') && (!daftar_pinjaman.includes($idbuku.val()))) {
 				$judul.val(result['judul']);
 				$tglbatas.prop('disabled', false);
 				$btntambah.prop('disabled', false);
@@ -77,7 +78,12 @@ function tambah() {
 
 function hapus(e) {
 	event.preventDefault();
+	$tketerangan.text('');
+	$idbuku.val('');
+	$judul.val('');
+	daftar_pinjaman.splice(daftar_pinjaman.indexOf(event.currentTarget.closest('tr').children[0].innerText), 1);
 	event.currentTarget.closest('tr').remove();
+	console.log(daftar_pinjaman);
 }
 
 function kembali(e) {
