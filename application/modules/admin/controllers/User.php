@@ -44,7 +44,7 @@ class User extends CI_Controller
 				break;
 			case '2':
 				$newdata['nis'] = $this->input->post('txtnis');
-				$newdata['kelas'] = $this->input->post('kelas');
+				$newdata['idkelas'] = $this->input->post('kelas');
 				$result = $this->siswa_m->insert($newdata);
 				break;
 			

@@ -14,6 +14,8 @@ var daftar_isbn = null;
 var $warning = "<tr id='warningitem'><td></td><td>silahkan daftarkan info isbn terlebih dahulu</td></tr>";
 var olddata = null;
 
+var temp = null;
+
 function toggleModal(key) {
   switch(key){
     case 'login':
@@ -56,14 +58,7 @@ $(document).ready(function(){
 	});
 	$('#table-genre').DataTable();
 	$('#forms-infobuku').submit(function() {
-		if (!$(this).find('input').val()) {
-			console.log(1);
-			event.preventDefault();
-		}
-		if (($tterbitan.val().length !== 4) || isNaN($tterbitan.val())) {
-			console.log(2);
-			event.preventDefault();
-		}
+		$(this).find('small').text('');
 
 		var newisbn = false;
 		if ($(this).data('role') == 'tambah') {
@@ -96,8 +91,17 @@ $(document).ready(function(){
 		if (!newisbn) {
 			event.preventDefault();
 			console.log(newisbn);
+			$tisbn.next('small').text('ISBN telah ada');
 		}
-		
+		submitinfo();
+		$(this).find("input[name='txtpengarang[]']").each(function() {
+			if ($(this).val().length == 0) {
+				event.preventDefault();
+				console.log($(this).parent());
+				temp = $(this);
+				$(this).parent().next().next('small').text('Tidak boleh kosong');
+			}
+		});
 	});
 	
 	/**
@@ -126,11 +130,24 @@ $(document).ready(function(){
 
 function submitinfo() {
 	var filled = false;
+		if(!$tisbn.val()) {
+			console.log(1);
+			event.preventDefault();
+			temp = $(this);
+			$tisbn.next('small').text("Tidak boleh kosong");
+		}
+		if (($tterbitan.val().length !== 4) || isNaN($tterbitan.val())) {
+			console.log(2);
+			event.preventDefault();
+			$tterbitan.next('small').text("Tahun tidak valid");
+		}
 	$('#form-infobuku input, textarea').each(function() {
+		console.log($(this));
 		if ($(this).val()) {
 			filled = true;
 		} else {
 			filled = false;
+			$(this).next('small').text("Tidak boleh kosong");
 		}
 	});
 	if (filled) {

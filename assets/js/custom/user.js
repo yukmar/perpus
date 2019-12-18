@@ -1,9 +1,10 @@
-(function() {	
+// (function() {	
 var siswa = {
 	prop: {
 		nis: null,
 		nama: null,
-		kelas: null
+		kelas: null,
+		nis_stat: false
 	},
 	path: {
 		origin: window.location.origin + '/manage-user/',
@@ -43,6 +44,11 @@ var siswa = {
 			if (ini.$form.data('role') == 'edit') {
 				e.preventDefault();
 				ini.prepdata();
+			} else if(ini.$form.data('role') == 'tambah'){
+				if ((ini.$nama.val().length == 0) || (ini.prop.nis_stat == true)) {
+					console.log(ini.$nama.val());
+					e.preventDefault();
+				}
 			}
 		});
 	},
@@ -82,13 +88,16 @@ var siswa = {
 						if (dt.ada) {
 							ini.$warningbox.text(dt.ada);
 							ini.$btnsubmit.prop('disabled', true);
+							ini.prop.nis_stat = true;
 						} else {
 							ini.$warningbox.text('');
 							ini.$btnsubmit.prop('disabled', false);
+							ini.prop.nis_stat = false;
 						}
 					} else {
 						ini.$warningbox.text('');
 						ini.$btnsubmit.prop('disabled', false);
+						ini.prop.nis_stat = false;
 					}
 				});
 			} else {
@@ -250,4 +259,4 @@ siswa.init();
 petugas.init();
 kelas.init();
 
-})();
+// })();

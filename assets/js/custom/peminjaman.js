@@ -22,21 +22,25 @@ function cek_buku(e) {
 		if (result) {
 			if ((result['status'] == 'tersedia' || result['status'] == 'baru') && (!daftar_pinjaman.includes($idbuku.val()))) {
 				$judul.val(result['judul']);
-				$tglbatas.prop('disabled', false);
+				// $tglbatas.prop('disabled', false);
 				$btntambah.prop('disabled', false);
 				infobuku = result['info_buku'];
 				console.log(infobuku);
 			} else {
+				if (daftar_pinjaman.includes($idbuku.val())) {
+					$tketerangan.html('Buku telah dipilih');
+				} else {
+					$tketerangan.html('<a href="'+ window.location.origin +'">Buku masih dipinjam</a>');
+				}
 				$judul.prop('disabled', true);
-				$tglbatas.prop('disabled', true);
-				$btnpinjam.prop('disabled', true);
-				$tketerangan.html('<a href="'+ window.location.origin +'">Buku masih dipinjam</a>');
+				// $tglbatas.prop('disabled', true);
+				// $btnpinjam.prop('disabled', true);
 			}
 		} else {
 			$judul.val('');
 			$judul.prop('disabled', true);
-			$tglbatas.prop('disabled', true);
-			$btnpinjam.prop('disabled', true);
+			// $tglbatas.prop('disabled', true);
+			// $btnpinjam.prop('disabled', true);
 			$tketerangan.text('Kode tidak ditemukan');
 		}
 	});
@@ -71,7 +75,7 @@ function tambah() {
 	console.log(daftar_pinjaman);
 	var addrow = "<tr><td>"+infobuku['idbuku']+"<input type='hidden' name='id[]' value='"+infobuku['idbuku']+"'/></td><td>"+infobuku['isbn']+"</td><td>"+infobuku['judul']+"</td><td>"+infobuku['pengarang']+"</td><td><button class='btn btn-danger' onclick='hapus()'>hapus</button></td><tr>";
 	$tdaftar.append(addrow);
-	$btntambah.prop('disabled', true);
+	// $btntambah.prop('disabled', true);
 	$judul.val('');
 	$idbuku.val('');
 }
@@ -84,6 +88,9 @@ function hapus(e) {
 	daftar_pinjaman.splice(daftar_pinjaman.indexOf(event.currentTarget.closest('tr').children[0].innerText), 1);
 	event.currentTarget.closest('tr').remove();
 	console.log(daftar_pinjaman);
+	if ($tdaftar.find('tr').length <=1 ) {
+		$btnpinjam.prop('disabled', true);
+	}
 }
 
 function kembali(e) {
@@ -109,5 +116,21 @@ $(document).ready(function(e) {
 	});
 	$btntambah.click(function() {
 		tambah();
+	});
+	$tdaftar.bind("DOMSubtreeModified", function() {
+		console.log('table berubah');
+		if ($tdaftar.find('tr').length > 1) {
+			$tglbatas.prop('disabled', false);
+			console.log('tabel tr > ' + $tdaftar.find('tr').length);
+			if ($tglbatas.val()) {
+				$btnpinjam.prop('disabled', false);
+			} else {
+				$btnpinjam.prop('disabled', true);
+			}
+		} else {
+			console.log('tabel tr ' + $tdaftar.find('tr').length);
+			$tglbatas.prop('disabled', true);
+			$btnpinjam.prop('disabled', true);
+		}
 	})
 });

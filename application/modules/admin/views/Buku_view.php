@@ -15,17 +15,19 @@
   			<div class="container border-form">
   				<h5 id="caption-buku">Form Tambah Info Buku</h5>
 		  		<div class="forms-group">
-		  			<form action="<?=site_url('manage-buku/addinfo')?>" method="post" id="forms-infobuku" onreset="resetforminfo()" onsubmit="return submitinfo()" data-role="tambah">
+		  			<form action="<?=site_url('manage-buku/addinfo')?>" method="post" id="forms-infobuku" onreset="resetforminfo()" data-role="tambah">
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">ISBN</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="txtisbn" id="tisbn" />
+									<small class="form-text text-danger"></small>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Judul</label>
 								<div class="col-sm-10">
 									<textarea class="form-control" name="txtjudul" id="tjudul"></textarea>
+									<small class="form-text text-danger"></small>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -35,6 +37,7 @@
 										<input type="text" name="txtpengarang[]" class="tpengarang form-control col-sm-9" />
 									</div>
 									<button onclick="return addpengarang()" class="btn btn-primary">tambah pengarang</button>
+									<small class="form-text text-danger"></small>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -52,6 +55,7 @@
 								<label class="col-sm-2 col-form-label">Tahun Terbitan</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="txtterbitan" id="tterbitan" />
+									<small class="form-text text-danger"></small>
 								</div>
 							</div>
 							<div class="form-group row">
