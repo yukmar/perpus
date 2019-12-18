@@ -22,6 +22,7 @@ class Pengarang_model extends CI_Model
 
 	private function reconstruct($returnfield = null)
 	{
+		$this->nama = preg_replace("/_/", " ", $this->nama);
 		switch ($returnfield) {
 			case $this->field_id:
 				return $this->id;

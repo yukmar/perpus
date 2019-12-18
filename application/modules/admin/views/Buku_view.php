@@ -48,7 +48,8 @@
 										<option value="<?=$value['id']?>"><?=$value['nama']?></option>
 									<?php } ?>
 									</select>
-									<small class="form-text text-muted"><a href="<?=site_url('manage-penerbit')?>">Tambah Penerbit</a></small>
+									<small class="form-text text-danger"></small>
+									<a class="btn btn-primary" href="<?=site_url('manage-penerbit')?>">Tambah Penerbit</a>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -61,12 +62,13 @@
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Genre</label>
 								<div class="col-sm-10">
-									<select name="genre" class="custom-select">
+									<select name="genre" class="form-control">
 										<?php foreach ($genre as $key => $value) { ?>
 										<option value="<?=$value['id']?>"><?=$value['nama']?></option>
 										<?php } ?>
 									</select>
-									<small class="form-text text-primary"><a onclick="toggleModal('login')">Tambah Genre</a></small>
+									<small class="form-text text-danger"></small>
+									<a class="btn btn-primary" href="#" onclick="toggleModal('login')">Tambah Genre</a>
 								</div>
 							</div>
 							<button class="btn btn-primary" type="submit" id="btninfosubmit">tambah</button>

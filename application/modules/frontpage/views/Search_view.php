@@ -10,6 +10,7 @@
         	<h5>Pencarian: "<?=$judul?>"</h5>
           <hr />
           <br />
+          <?=var_dump($hasil)?>
           <?php if ($hasil) { ?>
             <table class="table databook">
               <thead>
