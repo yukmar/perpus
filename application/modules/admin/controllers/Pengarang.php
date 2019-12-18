@@ -23,6 +23,17 @@ class Pengarang extends CI_Controller
 		$this->load->view('Pengarang_view', $data);
 	}
 
+	public function create()
+	{
+		$nama = $this->input->post('txtnama');
+		$result = $this->pengarang_m->insert($nama);
+		if ($result) {
+			redirect(site_url('manage-pengarang'));
+		} else {
+			echo "Pengarang telah terdaftar, silahkan <a href='".site_url('manage-pengarang')."'>kembali</a>";
+		}
+	}
+
 	public function update()
 	{
 		$id = $this->input->get('no');
@@ -49,6 +60,17 @@ class Pengarang extends CI_Controller
 			echo "Terjadi kesalahan, mohon menghubungi admin";
 		} else {
 			redirect(site_url('manage-pengarang'));
+		}
+	}
+
+	public function checknama()
+	{
+		$nama = $this->input->get('nama');
+		$result = $this->pengarang_m->search('nama', $nama);
+		if ($result) {
+			echo json_encode(array("ada" => "Nama telah terdaftar"));
+		} else {
+			echo json_encode(array("tidak" => "Nama belum terdaftar"));
 		}
 	}
 }

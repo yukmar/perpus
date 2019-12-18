@@ -15,10 +15,11 @@
   		<div class="row container-fluid">
   			<div class="container border-form">
   				<h5 id="title-form">Form Tambah Pengarang</h5>
-  				<form action="<?=site_url('manage-pengarang/create')?>" onreset="reset_form()" method="post" id="form-pengarang">
+  				<form action="<?=site_url('manage-pengarang/add')?>" onreset="reset_form()" method="post" id="form-pengarang" data-role="tambah">
   					<div class="form-group row">
   						<label class="col-sm-3 col-form-label">Nama Pengarang</label>
   						<textarea class="col-sm-9" name="txtnama" id="tnama"></textarea>
+              <small class="form-text text-danger"></small>
   					</div>
   					<input type="hidden" name="txid" id="tid" />
   					<button type="submit" class="btn btn-primary" id="btn-form">Tambah</button>

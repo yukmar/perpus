@@ -8,11 +8,11 @@ class Testing extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Buku_model' , 'buku_m');
+		$this->load->model('Itembuku_model', 'item_m');
 	}
 
 	public function index()
 	{
-		echo json_encode($this->buku_m->search_word('bahasa'));
+		echo json_encode($this->item_m->get_allitem());
 	}
 }

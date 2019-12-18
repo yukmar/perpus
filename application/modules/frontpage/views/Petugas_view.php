@@ -40,10 +40,10 @@
 		<h2 class="caption-page">ADMIN</h2>
 		<div class="linebreak"></div>
 	</div>
-  <div class="headings container-fluid row justify-content-center">
-  	<section class="col-sm-11">
-  		<div class="row container-fluid">
-  			<h5>Daftar Peminjaman</h5>
+  <div class="headings row container-fluid justify-content-center">
+		<section class="col-sm-11">
+			<div>
+  			<h5 class="text-center">Daftar Peminjaman</h5>
   			<table class="table databook" id="tablepeminjaman">
 						<thead>
 							<tr>
@@ -79,6 +79,35 @@
   		</div>
   	</section>
 	</div>
+	<div class="headings row container-fluid justify-content-center">
+		<section class="col-sm-11">
+			<div>
+  			<h5 class="text-center">Daftar Item Buku</h5>
+  			<table class="table databook" id="table-item">
+  				<thead>
+  					<tr>
+  						<th>#</th>
+  						<th>Kode Buku</th>
+  						<th>ISBN</th>
+  						<th>Judul</th>
+  						<th>Tahun Terbit</th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  					<?php foreach ($list_item as $key => $value) { ?>
+  					<tr>
+  						<td><?=$key+1?></td>
+  						<td><a href="<?=site_url('item-buku/detail/?no=').$value->idbuku?>" title=""><?=$value->idbuku?></a></td>
+							<td><a href="<?=site_url('item-buku/?isbn=').$value->isbn?>" title=""><?=$value->isbn?></a></td>
+							<td><?=$value->judul?></td>
+							<td><?=$value->tahun?></td>
+  					</tr>
+  					<?php } ?>
+  				</tbody>
+  			</table>
+  		</div>
+		</section>
+	</div>
 <!--    </div>-->
 	<div class="sidebar">
 	  <nav class="menu">
@@ -97,5 +126,6 @@
 	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>
   <script src="<?=base_url('assets/js/')?>jquery.dataTables.min.js"></script>
+  <script src="<?=base_url('assets/js/custom/')?>petugas.js"></script>
 </body>
 </html>

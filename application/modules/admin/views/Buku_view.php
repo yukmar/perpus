@@ -15,7 +15,7 @@
   			<div class="container border-form">
   				<h5 id="caption-buku">Form Tambah Info Buku</h5>
 		  		<div class="forms-group">
-		  			<form action="<?=site_url('manage-buku/addinfo')?>" method="post" id="forms-infobuku" onreset="resetforminfo()" data-role="tambah">
+		  			<form action="<?=site_url('manage-buku/addinfo')?>" method="post" id="forms-infobuku" onreset="resetforminfo()" onsubmit="return submitinfo()" data-role="tambah">
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">ISBN</label>
 								<div class="col-sm-10">

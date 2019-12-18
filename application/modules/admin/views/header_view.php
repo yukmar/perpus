@@ -18,7 +18,7 @@
     <a href="<?=site_url()?>"><img src="<?=base_url('assets/images/logo.png')?>"/></a>
 	</div>
 	<div class="split__center">
-		<form>
+		<form action="<?=site_url('search')?>">
 		<div class="search">
 		<input class="forms-control" type="search" placeholder="Tulis judul disini">
 		<i class="fas fa-search forms-control button"></i>

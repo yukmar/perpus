@@ -61,6 +61,11 @@ $(document).ready(function(){
 		$(this).find('small').text('');
 
 		var newisbn = false;
+		if ($tisbn.val().length !== 13) {
+			console.log($tisbn.val().length);
+			event.preventDefault();
+			$tisbn.next('small').text('ISBN harus 13 angka');
+		}
 		if ($(this).data('role') == 'tambah') {
 			for (var i = 0; i < daftar_isbn.length; i++) {
 				if ($tisbn.val() == daftar_isbn[i]) {

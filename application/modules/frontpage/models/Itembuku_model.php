@@ -31,6 +31,9 @@ class Itembuku_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model(array(
+			'Detailpengarang_model' => 'detpengarang_m',
+		));
 	}
 
 	/**
@@ -252,6 +255,14 @@ class Itembuku_model extends CI_Model
 	public function get_allhistory()
 	{
 		return $this->db->order_by($this->field_idpinjam, 'DESC')->get($this->history_item)->result();
+	}
+
+	public function get_allitem()
+	{
+		$q = $this->db->select('i.id_buku as idbuku, b.isbn as isbn, b.judul as judul, b.tahun_terbit as tahun')
+									->from('item_buku i')
+									->join('buku b', 'i.isbn = b.isbn', 'left')->get()->result();
+		return $q;
 	}
 
 	public function history($idbuku)

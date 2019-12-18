@@ -99,6 +99,8 @@ $route['manage-penerbit/delete'] = 'admin/penerbit/delete';
 $route['manage-pengarang'] = 'admin/pengarang';
 $route['manage-pengarang/edit'] = 'admin/pengarang/update';
 $route['manage-pengarang/delete'] = 'admin/pengarang/delete';
+$route['manage-pengarang/add'] = 'admin/pengarang/create';
+$route['manage-pengarang/cek'] = 'admin/pengarang/checknama';
 
 // admin item buku
 $route['item-buku'] = 'admin/item_buku';
