@@ -96,7 +96,7 @@ $(document).ready(function(){
   $flogin.submit(function(e) {
     login();
   })
-  $flogin.find('input').keyup(function() {
+  $flogin.find('input').on("keyup change", function() {
     var btn = false;
     if (!$(this).val()) {
       $(this).parent().next('small').text($(this).data('role') + ' tidak boleh kosong');

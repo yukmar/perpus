@@ -62,8 +62,12 @@ class Testing extends CI_Controller
 		// $date2 = new DateTime();
 		// $result = date_diff($date2, $date1)->format("%R%a");
 		
-		$q = $this->item_m->search('isbn', '1234567890123');
-		echo json_encode($q);
+		if ($this->session->tipe) {
+			echo "ada";
+		} else {
+			echo "tidak";
+		}
+		var_dump($this->session->userdata());
 		
 	}
 

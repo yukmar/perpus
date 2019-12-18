@@ -1,3 +1,4 @@
+(function() {
 var depan = {
 	doms: function() {
 		this.$table = $('#tablepeminjaman');
@@ -11,3 +12,4 @@ var depan = {
 }
 
 depan.init();
+})();

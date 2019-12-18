@@ -27,8 +27,12 @@
             </form>
         </div>
         <div class="split__right">
+          <?php if ($this->session->tipe) { ?>
+            <a class="btn-menu" href="<?=site_url('logout')?>" data-role="logout">Logout</a>
+          <?php } else { ?>
             <a class="btn-menu" onclick="toggleModal('login')">Login</a>
             <a class="btn-menu" onclick="toggleModal('daftar')">Daftar</a>
+          <?php } ?>
         </div>
     </header>
     <div class="nav nav-pad">

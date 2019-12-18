@@ -15,7 +15,7 @@
 <body>
 <header id="split">
 	<div class="split__left">
-		<a><img src="<?=base_url('assets/images/logo.png')?>" /></a>
+		<a href="<?=site_url()?>"><img src="<?=base_url('assets/images/logo.png')?>" /></a>
 	</div>
 	<div class="split__center">
 		<form action="<?=site_url('search')?>" method="get" id="form-search">

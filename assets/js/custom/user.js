@@ -1,4 +1,4 @@
-// (function() {	
+(function() {	
 var siswa = {
 	prop: {
 		nis: null,
@@ -259,4 +259,4 @@ siswa.init();
 petugas.init();
 kelas.init();
 
-// })();
+})();
