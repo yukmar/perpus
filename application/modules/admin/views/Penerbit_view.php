@@ -32,10 +32,13 @@
 					</form>
   			</div>
   		</div>
-  		<div class="row">
-  			<div class="container pt-2">
-  				<h5>Table Data Penerbit</h5>
-	  			<table class="table databook">
+  	</section>
+	</div>
+	<div class="headings row container-fluid justify-content-center">
+		<section class="col-sm-11">
+			<div>
+				<h2 class="text-center">DATA PENERBIT</h2>
+				<table class="table databook" id="table-penerbit">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -60,12 +63,9 @@
 						<?php } ?>
 						</tbody>
 					</table>
-  			</div>
-  		</div>
-  	</section>
+			</div>
+		</section>
 	</div>
-	
-
 	<div class="sidebar">
 	  <nav class="menu">
 		  <li><a href="<?=site_url()?>">Home</a></li>
@@ -78,30 +78,11 @@
 	  </nav>
 	</div>
 </div>
-
+<?php $this->load->view('footer_view.php');?>
 	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>
   <script src="<?=base_url('assets/js/')?>jquery.dataTables.min.js"></script>
-  <script>
-		var tnama = document.getElementById('tnama');
-		var talamat = document.getElementById('talamat');
-		var fpenerbit = document.getElementById('fpenerbit');
-
-		function editpenerbit(no) {
-			var selected_row = event.target.closest('tr');
-			var nama = selected_row.children[1].innerHTML;
-			var alamat = selected_row.children[2].innerHTML;
-
-			console.log('nama '+nama);
-			console.log('alamat '+alamat);
-
-			$('#caption-penerbit').val('FORM EDIT PENERBIT');
-			fpenerbit.action = "<?=site_url('manage-penerbit/edit/?no=')?>" + no;
-			fpenerbit.querySelector('button').innerHTML = 'edit';
-			tnama.value = nama;
-			talamat.value = alamat;
-		}
-	</script>
+  <script src="<?=base_url('assets/js/custom/')?>penerbit.js"></script>
 </body>
 </html>

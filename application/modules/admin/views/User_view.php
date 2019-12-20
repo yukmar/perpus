@@ -11,11 +11,11 @@
 	</div>
   <div class="headings row">
   	<section class="col-sm-6">
-	  	<h4 class="caption-form text-center">SISWA</h4>
+	  	<h3 class="caption-form text-center">SISWA</h3>
   		<div class="row container-fluid">
   			<div class="container border-form">
 	  			<form action="<?=site_url('manage-user/add/?t=2')?>" method="post" id="form-siswa" data-role="tambah">
-	  			<p>FORM TAMBAH USER SISWA</p>
+	  			<h5>FORM TAMBAH USER SISWA</h5>
 	  				<div class="form-group row">
 							<label class="col-sm-2 col-form-label">NIS</label>
 							<div class="col-sm-10">
@@ -52,6 +52,7 @@
 					</form>
 				</div>
 			</div>
+			<br>
 			<div class="row">
 				<div class="container pt-2">
 					<h4>DATA USER SISWA</h4>
@@ -84,6 +85,7 @@
 					</table>
 				</div>
   		</div>
+  		<br>
   		<div class="row">
   			<div class="container pt-2">
   				<h4>DATA KELAS</h4>
@@ -116,10 +118,10 @@
   		</div>
   	</section>
   	<section class="col-sm-6">
-	  	<h4 class="caption-form text-center">PETUGAS</h4>
+	  	<h3 class="caption-form text-center">PETUGAS</h3>
   		<div class="row container-fluid">
   			<div class="container border-form">
-	  			<p id="caption-petugas">FORM TAMBAH USER PETUGAS</p>
+	  			<h5 id="caption-petugas">FORM TAMBAH USER PETUGAS</h5>
 	  			<form action="<?=site_url('manage-user/add/?t=1')?>" method="post" id="form-petugas" data-role="tambah">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label">NIP</label>
@@ -145,6 +147,7 @@
 					</form>
 				</div>
 			</div>
+			<br>
 			<div class="row container-fluid">
 				<div class="container pt-2">
 					<h4>DATA USER PETUGAS</h4>
@@ -190,7 +193,7 @@
 	  </nav>
 	</div>
 </div>
-
+<?php $this->load->view('footer_view.php');?>
 <div class="modal__login loginform">
   <div class="modal__login-content">
     <span class="modal__login-close" data-role="tambah">×</span>

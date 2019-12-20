@@ -1,5 +1,6 @@
 <?php $this->load->view('header_view');?>
         <div class="nav-pad">
+          <div class="search-gap"></div>
           <div class="section-break">
             <div class="linebreak"></div>
             <h1 class="text-center caption-landing">PENCARIAN BUKU</h1>
@@ -42,6 +43,7 @@
           <?php } ?>
         </div>
     </div>
+    <?php $this->load->view('footer_view.php');?>
     <div class="modal__login loginform">
         <div class="modal__login-content">
             <span class="modal__login-close" onclick="toggleModal('login')">×</span>

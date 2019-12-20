@@ -125,10 +125,12 @@ class Pengarang_model extends CI_Model
 	{
 		$result_set = null;
 		if ($field == $this->field_nama) {
-			$firstname = strtolower((explode(" ", $value))[0]);
-			$result_set = $this->db->like($this->field_nama, $firstname, 'after')->get($this->table)->result();
+			$firstname = strtolower(preg_replace("/ /", "_", $value));
+			// $firstname = strtolower((explode(" ", $value))[0]);
+			// $result_set = $this->db->like($this->field_nama, $firstname, 'after')->get($this->table)->result();
+			$result_set = $this->db->get_where($this->table, array($this->field_nama => $firstname))->result();
 			if ($result_set) {
-				$value = strtolower(preg_replace("/[^a-zA-Z]/", "", $value));
+				$value = preg_replace("/ /", "_", (ucwords($result_set[0]->{$this->field_nama})));
 				$result_match = array();
 				if (count($result_set) == 1) {
 					foreach ($result_set as $key => $value) {

@@ -14,7 +14,6 @@
   	<section class="col-sm-11">
   		<div class="row container-fluid">
         <div class="container border-form">
-          
   			FORM PENGEMBALIAN
   			<form action="<?=site_url('pengembalian/cek-tagihanbuku')?>" method="post">
           <div class="form-group row">
@@ -96,7 +95,7 @@
 		  </nav>
 		</div>
 	</div>
-
+<?php $this->load->view('footer_view.php');?>
 	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>

@@ -11,9 +11,10 @@
 	</div>
 
   <div class="headings container-fluid row justify-content-center">
-  	<section class="col-sm-11">
+  	<section class="col-sm-11 border-form">
   		<div class="row container-fluid">
-  			<div class="container border-form">
+  			<div class="container">
+  				<h3>CEK BUKU</h3>
 	  			<form id="fpinjam" onsubmit="return false">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label">NIS</label>
@@ -45,9 +46,10 @@
 					</form>
 				</div>
 			</div>
+			<br>
 			<div class="row container-fluid">
-				<div class="container border-form">
-					Daftar Peminjaman
+				<div class="container">
+					<h3>DAFTAR KERANJANG BUKU</h3>
 					<form action="<?=site_url('peminjaman/pinjam')?>" method="post">
 						<input type="hidden" name="txnis" id="hidden-nis" />
 						<table class="table databook" id="daftar-pinjam">
@@ -73,10 +75,14 @@
 					</form>
 				</div>
 			</div>
-			<div class="row">
-				<div class="container pt-2">
-					<h5>Data Peminjaman</h5>
-					<table class="table databook" id="tablepeminjaman">
+  	</section>
+  </div>
+  <div class="second-linebreak"></div>
+  <div class="headings row container-fluid justify-content-center">
+		<section class="col-sm-11">
+			<div>
+				<h2 class="text-center">DATA PEMINJAMAN</h2>
+				<table class="table databook" id="tablepeminjaman">
 						<caption>Daftar Peminjaman</caption>
 						<thead>
 							<tr>
@@ -115,11 +121,9 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
 			</div>
-  	</section>
-  </div>
-
+		</section>
+	</div>
 	
 
 	<div class="sidebar">
@@ -134,6 +138,8 @@
 	  </nav>
 	</div>
 </div>
+<?php $this->load->view('footer_view.php');?>
+
 	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>

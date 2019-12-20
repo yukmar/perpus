@@ -8241,6 +8241,7 @@ header {
   position: fixed;
   width: 100%;
   z-index: 100;
+  box-shadow: 1px 1px 15px 5px #F1F1F1;
 }
 
 .split__left {
@@ -8443,12 +8444,11 @@ header {
 /*admin*/
 .containers {
   display: flex;
-  min-height: 100%;
+  min-height: 75vh;
   padding-top: 5rem;
   padding-bottom: 2rem;
   justify-content: center;
   flex-flow: row wrap;
-  background: #F1F1F1;
   overflow-x: hidden;
 }
 
@@ -8574,7 +8574,7 @@ input[data-function*=swipe]:checked ~ .sidebar .menu li {
 .section-break {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
 }
 .section-break .caption-landing {
@@ -8583,11 +8583,13 @@ input[data-function*=swipe]:checked ~ .sidebar .menu li {
 }
 .section-break .caption-page {
   font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
   padding: 0.3rem 3.5rem;
 }
 .section-break .linebreak {
   width: 20rem;
-  margin-bottom: 1.8rem;
+  height: 2.3rem;
+  margin-bottom: 2rem;
   border-bottom: 1px solid black;
 }
 
@@ -8605,6 +8607,29 @@ input[data-function*=swipe]:checked ~ .sidebar .menu li {
 
 #table-petugas {
   width: 100%;
+}
+
+.search-gap {
+  margin-bottom: 5rem;
+}
+
+.footer {
+  background-color: #F3F3F3;
+  padding: 1.7rem 5rem;
+  margin-top: 1rem;
+  margin-bottom: auto;
+  font-size: 0.9rem;
+  line-height: normal;
+}
+.footer table tr td:first-child {
+  width: 4rem;
+}
+
+.second-linebreak {
+  width: 90%;
+  border-bottom: 1px solid #F2F2F2;
+  margin-bottom: 0.5rem;
+  margin-top: 2rem;
 }
 
 /*# sourceMappingURL=custom.css.map */

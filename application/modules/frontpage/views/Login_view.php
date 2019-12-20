@@ -1,11 +1,24 @@
 <?php $this->load->view('header_view'); ?>
+    <div class="nav nav-pad">
+        <div class="nav__menu">
+            <a href="<?=site_url()?>" class="nav__menu-item">Home</a>
+            <!-- <a href="#book" class="nav__menu-item">Book</a> -->
+        </div>
+    </div>
+    <div class="main">
+        <div class="owl-carousel" id="carousel">
+            <div class="carousel__item"><img src="<?=base_url('assets/images/buku1.jpg')?>" alt="wallpaper1" /></div>
+            <div class="carousel__item"><img src="<?=base_url('assets/images/buku2.jpg')?>" alt="wallpaper2" /></div>
+            <div class="carousel__item"><img src="<?=base_url('assets/images/buku3.jpg')?>" alt="wallpaper3" /></div>
+            <div class="carousel__item"><img src="<?=base_url('assets/images/buku4.jpg')?>" alt="wallpaper4" /></div>
+        </div>
         <div class="nav-pad">
           <div class="section-break">
             <div class="linebreak"></div>
             <h1 class="text-center caption-landing">KATALOG BUKU</h1>
             <div class="linebreak"></div>
           </div>
-            <table id="databook" class="databook table table-striped">
+            <table id="databook" class="databook table table-striped border-form">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -32,6 +45,7 @@
             </table>
         </div>
     </div>
+    <?php $this->load->view('footer_view.php');?>
     <div class="modal__login loginform">
         <div class="modal__login-content">
             <span class="modal__login-close" onclick="toggleModal('login')">×</span>

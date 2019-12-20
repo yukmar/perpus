@@ -11,7 +11,7 @@
 	</div>
 
   <div class="headings container-fluid row justify-content-center">
-  	<section class="col-sm-9">
+  	<section class="col-sm-11">
   		<div class="row container-fluid">
   			<div class="container border-form">
   				<h5 id="title-form">Form Tambah Pengarang</h5>
@@ -27,34 +27,39 @@
   				</form>	
   			</div>
   		</div>
-  		<div class="row  container-fluid justify-content-center">
-  			<table class="table databook" id="table-pengarang">
-  				<thead>
-  					<tr>
-  						<th>#</th>
-  						<th>Nama Pengarang</th>
-  						<th>Total</th>
-  						<th>Aksi</th>
-  					</tr>
-  				</thead>
-  				<tbody>
-  					<?php foreach ($item as $key => $value) { ?>
-  					<tr>
-  						<td><?=$key+1?></td>
-  						<td><?=$value['nama']?></td>
-  						<td><?=$value['total']?></td>
-  						<td>
-  							<div class="btn-group">
-  								<button class="btn btn-outline-success" onclick="edit_pengarang(<?=$value['id']?>)">Edit</button>
-  								<a class="btn btn-outline-danger" href="<?=site_url('manage-pengarang/delete/?no=').$value['id']?>">Hapus</a>
-  							</div>
-  						</td>
-  					</tr>
-  					<?php } ?>
-  				</tbody>
-  			</table>
-  		</div>
   	</section>
+  </div>
+  <div class="headings row container-fluid justify-content-center">
+    <section class="col-sm-11">
+      <div>
+        <h2 class="text-center">DATA PENERBIT</h2>
+        <table class="table databook" id="table-pengarang">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama Pengarang</th>
+              <th>Total</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($item as $key => $value) { ?>
+            <tr>
+              <td><?=$key+1?></td>
+              <td><?=$value['nama']?></td>
+              <td><?=$value['total']?></td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-outline-success" onclick="edit_pengarang(<?=$value['id']?>)">Edit</button>
+                  <a class="btn btn-outline-danger" href="<?=site_url('manage-pengarang/delete/?no=').$value['id']?>">Hapus</a>
+                </div>
+              </td>
+            </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
   <div class="sidebar">
 	  <nav class="menu">
@@ -68,7 +73,7 @@
 	  </nav>
 	</div>
 </div>
-
+<?php $this->load->view('footer_view.php');?>
 	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>

@@ -14,18 +14,20 @@ var $fdaftar = $('#form-daftar');
 function toggleModal(key) {
   switch(key){
     case 'login':
+      $flogin.trigger("reset");
+      $flogin.find('small').text('');
+      $blogin.prop('disabled', true);
       modalLogin.classList.toggle("modal__login-show");
       break;
     case 'daftar':
+      $fdaftar.trigger("reset");
+      $fdaftar.find('small').text('');
+      $bdaftar.prop('disabled', true);
       modalDaftar.classList.toggle("modal__daftar-show");
       break;
     default:
       break;
   }
-}
-
-function windowOnClick(event) {
-  toggleModal('close');
 }
 
 function login() {
@@ -34,9 +36,7 @@ function login() {
   $passbox.text('');
   $.post(window.location.origin + '/login', $('#form-login').serialize()).done(function(data) {
     if (data) {
-      console.log(data);
       var status = JSON.parse(data);
-      console.log(status);
       if (status.username) {
         $userbox.text(status.username);
       } else if (status.password) {
@@ -54,21 +54,31 @@ function login() {
 function daftar() {
   event.preventDefault();
   $fdaftar.find('small').text('');
-  $.post(window.location.origin + '/daftar', $fdaftar.serialize()).done(function(data) {
-    if (data) {
-      var status = JSON.parse(data);
-      if (status == true) {
-        window.location.href = window.location.origin;
-      } else {
-        $fdaftar.find('small:first').text(status);
-        return false;
-      }
+  var filled = false;
+  $fdaftar.find('input').each(function() {
+    if ($(this).val().length == 0) {
+      filled = false;
+      $(this).parent().next('small').text('Tidak boleh kosong');
+      return false;
     } else {
-      console.log('true');
-      console.log(data);
-      window.location.href = window.location.origin;
+      filled = true;
     }
   });
+  if (filled) {
+    $.post(window.location.origin + '/daftar', $fdaftar.serialize()).done(function(data) {
+      if (data) {
+        var status = JSON.parse(data);
+        if (status == true) {
+          window.location.href = window.location.origin;
+        } else {
+          $fdaftar.find('small:first').text(status);
+          return false;
+        }
+      } else {
+        window.location.href = window.location.origin;
+      }
+    });
+  }
 }
 
 $(document).ready(function(){
@@ -134,24 +144,29 @@ $(document).ready(function(){
         daftar = true;
       }
     });
-    if (daftar) {
+    if (daftar && ($('#tduser').val().length == 12)) {
+      console.log('disabled');
       $bdaftar.prop('disabled', false);
     } else {
+      console.log('not');
       $bdaftar.prop('disabled', true);
     }
   });
   $('#tduser').keyup(function() {
-    if ($('#tduser').val()) {
+    if ($('#tduser').val().length == 12) {
       $.get(window.location.origin + '/check/', {nis: $('#tduser').val()}).done(function(data) {
         var dt = JSON.parse(data);
         if (dt.ada) {
           $('#tduser').parent().next('small').text(dt.ada);
           $bdaftar.prop('disabled', true);
         } else {
-          $bdaftar.prop('disabled', false);
           $('#tduser').parent().next('small').text('');
         }
       });
+    } else {
+      console.log($('#tduser').parent().next('small'));
+      $('#tduser').parent().next('small').text('NIS harus 12 karakter');
+      $bdaftar.prop('disabled', true);
     }
   })
 });

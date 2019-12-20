@@ -35,16 +35,3 @@
           <?php } ?>
         </div>
     </header>
-    <div class="nav nav-pad">
-        <div class="nav__menu">
-            <a href="<?=site_url()?>" class="nav__menu-item">Home</a>
-            <!-- <a href="#book" class="nav__menu-item">Book</a> -->
-        </div>
-    </div>
-    <div class="main">
-        <div class="owl-carousel" id="carousel">
-            <div class="carousel__item"><img src="<?=base_url('assets/images/buku1.jpg')?>" alt="wallpaper1" /></div>
-            <div class="carousel__item"><img src="<?=base_url('assets/images/buku2.jpg')?>" alt="wallpaper2" /></div>
-            <div class="carousel__item"><img src="<?=base_url('assets/images/buku3.jpg')?>" alt="wallpaper3" /></div>
-            <div class="carousel__item"><img src="<?=base_url('assets/images/buku4.jpg')?>" alt="wallpaper4" /></div>
-        </div>

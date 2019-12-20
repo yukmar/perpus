@@ -32,14 +32,6 @@ function toggleModal(key) {
   }
 }
 
-function windowOnClick(event) {
-  toggleModal('close');
-}
-
-function editgenre(no) {
-	// body...
-}
-
 $(document).ready(function(){
 	$.get(window.location.origin + '/manage-buku/daftar_pengarang').done(function(data) {
 		daftar_pengarang = JSON.parse(data);
@@ -65,6 +57,9 @@ $(document).ready(function(){
 			console.log($tisbn.val().length);
 			event.preventDefault();
 			$tisbn.next('small').text('ISBN harus 13 angka');
+		} else if($tisbn.val().length == 13 && !isNaN($tisbn)) {
+			event.preventDefault();
+			$tisbn.next('small').text('ISBN bukan angka');
 		}
 		if ($(this).data('role') == 'tambah') {
 			for (var i = 0; i < daftar_isbn.length; i++) {
@@ -108,28 +103,6 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
-	/**
-	$('#itemisbn').keyup(function() {
-		if ($('#itemisbn').val().length == 13) {
-			var notexist = null;
-			for (var i = 0; i < daftar_isbn.length; i++) {
-				if ($('#itemisbn').val() == daftar_isbn[i]) {
-					$('#btnitem').prop('disabled', false);
-				} else {
-					$('#btnitem').prop('disabled', true);
-					notexist = true;
-				}
-			}
-			if (notexist) {
-				$('#itemisbn').closest('small').val('silahkan daftarkan info isbn terlebih dahulu');
-				$('tr:empty').remove();
-			}
-		} else {
-		}
-	});
-	**/
-
 	$tableinfo.DataTable();
 });
 

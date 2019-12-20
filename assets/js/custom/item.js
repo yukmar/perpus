@@ -1,5 +1,4 @@
 (function() {
-
 var item = {
   prop: {
     kode: null,
@@ -38,14 +37,15 @@ var item = {
     this.events();
   },
   events: function() {
-    this.$addBtn.click($.proxy(this.toggleModal.bind(this), null, this.$addBtn.data('role')));
-    this.$addClose.click($.proxy(this.toggleModal.bind(this), null, this.$addClose.data('role')));
-    this.$addKode.change($.proxy(this.check_data.bind(this), null, {kode: this.$addKode, submit: this.$addSubmit}));
+    this.$addBtn.add(this.$addClose).click($.proxy(this.toggleModal.bind(this), null, 'tambah'));
+    this.$addKode.keyup($.proxy(this.check_data.bind(this), null, {kode: this.$addKode, submit: this.$addSubmit}));
+    this.$addHarga.keyup($.proxy(this.isnumber.bind(this), null, this.$addHarga));
 
-    this.$editBtn.click($.proxy(this.toggleModal.bind(this), null, this.$editBtn.data('role')));
-    this.$editClose.click($.proxy(this.toggleModal.bind(this), null, this.$editClose.data('role')));
-    this.$editKode.change($.proxy(this.check_data.bind(this), null, {kode: this.$editKode, submit: this.$editSubmit}));
+    this.$editBtn.add(this.$editClose).click($.proxy(this.toggleModal.bind(this), null, 'edit'));
+    this.$editKode.keyup($.proxy(this.check_data.bind(this), null, {kode: this.$editKode, submit: this.$editSubmit}));
     this.$editDate.add(this.$editHarga).on("change keyup", this.check_changedvalue.bind(this));
+
+    this.$editHarga.keyup($.proxy(this.isnumber.bind(this), null, this.$editHarga));
   },
   toggleModal: function(key, current) {
     switch(key){
@@ -103,6 +103,29 @@ var item = {
     } else {
       this.$editSubmit.prop('disabled', true);
     }
+  },
+  isnumber: function($harga) {
+    if (isNaN($harga.val())) {
+      $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', true);
+    } else {
+      if(this.filled($harga.parents(":eq(1)"))){
+        $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', false);
+      } else {
+        $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', true);
+      }
+    }
+  },
+  filled: function($form) {
+    var fill = false;
+    $form.find('input').each(function() {
+      if ($(this).val().length == 0) {
+        fill = false;
+        return false;
+      } else {
+        fill = true;
+      }
+    });
+    return fill;
   }
 }
 

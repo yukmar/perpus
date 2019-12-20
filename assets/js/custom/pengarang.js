@@ -17,6 +17,7 @@ function edit_pengarang(no) {
 }
 
 function reset_form() {
+	oldnama = null;
 	$('#btn-form').text('Tambah');
 	$('#title-form').text("Form Tambah Pengarang");
 	$('#form-pengarang').attr('action', window.location.origin + '/manage-pengarang/add');
@@ -24,19 +25,23 @@ function reset_form() {
 
 $(document).ready(function() {
 	$tpengarang.DataTable();
+	$btnform.prop('disabled', true);
 	$tnama.keyup(function() {
+		console.log($tnama.next('small'));
 		$.get(window.location.origin + '/manage-pengarang/cek', {nama: $tnama.val()}).done(function(data) {
 			var dt = JSON.parse(data);
-			if (data.ada) {
-				console.log(data.ada);
+			if (dt.ada) {
+				console.log(dt.ada);
 				if ($tnama.val() == oldnama) {
 					$btnform.prop('disabled', false);
+					$tnama.next('small').text('');
 				} else {
 					$btnform.prop('disabled', true);
-					$tnama.next('small').text(data.ada);
+					$tnama.next('small').text(dt.ada);
 				}
 			} else {
 				$btnform.prop('disabled', false);
+				$tnama.next('small').text('');
 			}
 		});
 	});

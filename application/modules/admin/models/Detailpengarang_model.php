@@ -47,7 +47,7 @@ class Detailpengarang_model extends CI_Model
 		return $this->all();
 	}
 
-	public function search($field_alias, $value, $returnfield_alias)
+	public function search($field_alias, $value, $returnfield_alias = null)
 	{
 		$field = null;
 		$returnfield = null;
@@ -105,7 +105,7 @@ class Detailpengarang_model extends CI_Model
 
 		return $this->insert_data();
 	}
-
+/*
 	public function update($conditions, $newdata)
 	{
 		$this->idpengarang = $conditions[$this->alias_idpengarang];
@@ -123,7 +123,7 @@ class Detailpengarang_model extends CI_Model
 
 		// return $this->update_data($prep_data);
 	}
-
+*/
 	public function delete($isbn)
 	{
 		$this->isbn = $isbn;

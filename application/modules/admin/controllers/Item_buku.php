@@ -33,7 +33,7 @@ class Item_buku extends CI_Controller
 		}
 		$infobuku = $this->buku_m->search('isbn', $isbn)[0];
 		$data['item'] = $this->item_m->search('isbn', $isbn);
-		$data['pengarang'] = implode(', ',$this->detpengarang_m->get_set($isbn));
+		$data['pengarang'] = ($this->detpengarang_m->search('isbn', $isbn))? implode(', ',$this->detpengarang_m->get_set($isbn)) : "";
 		$data['isbn'] = $isbn;
 		$data['judul'] = $infobuku['judul'];
 		$data['tahun'] = $infobuku['tahunterbit'];

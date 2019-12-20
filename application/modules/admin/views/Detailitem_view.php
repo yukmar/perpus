@@ -87,6 +87,7 @@
     </nav>
   </div>
 </div>
+<?php $this->load->view('footer_view.php');?>
   <script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
   <script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
   <script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>

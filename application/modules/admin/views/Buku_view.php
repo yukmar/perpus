@@ -78,46 +78,11 @@
 		  	</div>
   		</div>
   	</section>
-  	<!-- 
-  	<section class="col-sm-5">
-  		<div class="row container-fluid">
-  			<div class="container border-form">
-  				<h5>Form Tambah Item Buku</h5>
-  				<form action="<?=site_url('manage-buku/additem')?>" method="post" id='forms-item'>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">Kode Buku</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="txtiditem"/>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">ISBN</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="txtitemisbn" id="itemisbn" />
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">Harga</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="txtharga" id="tharga">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">Tanggal Pembelian</label>
-							<div class="col-sm-10">
-								<input type="date" class="form-control" name="txttglbeli">
-							</div>
-						</div>
-						<button class="btn btn-primary" type="submit" id="btnitem">Tambah Item Buku</button>
-  				</form>
-  			</div>
-  		</div>
-  	</section> -->
 	</div>
 	<div class="headings row container-fluid justify-content-center">
 		<section class="col-sm-11">
 			<div>
-				<h3 class="text-center">DATA BUKU</h3>
+				<h2 class="text-center">DATA BUKU</h2>
 				<table id="table-info" class="databook table">
 					<thead>
 						<tr>
@@ -162,7 +127,7 @@
   <div class="headings row container-fluid justify-content-center">
 		<section class="col-sm-11">
 			<div>
-				<h3 class="text-center">DAFTAR GENRE</h3>
+				<h2 class="text-center">DAFTAR GENRE</h2>
 				<table class="table databook" id="table-genre">
 					<thead>
 						<tr>
@@ -204,7 +169,7 @@
 	  </nav>
 	</div>
 </div>
-
+<?php $this->load->view('footer_view.php');?>
 <div class="modal__login loginform">
   <div class="modal__login-content">
     <span class="modal__login-close" onclick="toggleModal('login')">×</span>
