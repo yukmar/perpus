@@ -1,4 +1,4 @@
-// (function() {
+(function() {
 var item = {
   prop: {
     kode: null,
@@ -132,4 +132,4 @@ var item = {
 
 item.init();
 
-// })();
+})();
