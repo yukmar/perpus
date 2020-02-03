@@ -57,7 +57,7 @@ $(document).ready(function(){
 			console.log($tisbn.val().length);
 			event.preventDefault();
 			$tisbn.next('small').text('ISBN harus 13 angka');
-		} else if($tisbn.val().length == 13 && !isNaN($tisbn)) {
+		} else if($tisbn.val().length == 13 && isNaN($tisbn.val())) {
 			event.preventDefault();
 			$tisbn.next('small').text('ISBN bukan angka');
 		}
@@ -201,7 +201,7 @@ function editinfo(no) {
 function resetforminfo() {
 	resetpengarang();
 	$('#caption-buku').text('Form Tambah Info Buku');
-	$finfo.attr('action', window.location.origin + "/manage-buku/addinfo");
+	$finfo.attr('action', window.location.origin + "/manage-buku/add");
 	$finfo.find('button').eq(1).text('tambah');
 }
 

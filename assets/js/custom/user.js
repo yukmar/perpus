@@ -82,8 +82,7 @@ var siswa = {
 		if (this.$nis.val() !== this.prop.nis) {
 			if (this.$nis.val().length == 12) {
 				$.get(this.path.check, {nis: this.$nis.val()})
-				.done(function(data) {
-					var dt = JSON.parse(data);
+				.done(function(dt) {
 					if (ini.prop.nis !== ini.$nis.val()) {
 						if (dt.ada) {
 							ini.$warningbox.text(dt.ada);
@@ -187,8 +186,7 @@ var petugas = {
 		if (this.$nip.val().length == 18) {
 			if (this.$nip.val()!== this.prop.nip) {
 				$.get(this.path.check, {nip: this.$nip.val()})
-				.done(function(data) {
-					var dt = JSON.parse(data);
+				.done(function(dt) {
 					if (dt.ada) {
 						ini.$warningbox.text(dt.ada);
 						ini.$btnsubmit.prop('disabled', true);

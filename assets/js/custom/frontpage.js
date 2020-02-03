@@ -34,9 +34,8 @@ function login() {
   event.preventDefault();
   $userbox.text('');
   $passbox.text('');
-  $.post(window.location.origin + '/login', $('#form-login').serialize()).done(function(data) {
-    if (data) {
-      var status = JSON.parse(data);
+  $.post(window.location.origin + '/login', $('#form-login').serialize()).done(function(status) {
+    if (status) {
       if (status.username) {
         $userbox.text(status.username);
       } else if (status.password) {
@@ -65,9 +64,8 @@ function daftar() {
     }
   });
   if (filled) {
-    $.post(window.location.origin + '/daftar', $fdaftar.serialize()).done(function(data) {
-      if (data) {
-        var status = JSON.parse(data);
+    $.post(window.location.origin + '/daftar', $fdaftar.serialize()).done(function(status) {
+      if (status) {
         if (status == true) {
           window.location.href = window.location.origin;
         } else {
@@ -94,8 +92,7 @@ $(document).ready(function(){
     items: 7
   })
   $('#databook').DataTable();
-  $.get(window.location.origin + '/landing/list_buku').done(function(data) {
-    list_judulbuku = JSON.parse(data);
+  $.get(window.location.origin + '/katalog/list_buku').done(function(list_judulbuku) {
     $('#search-box').autocomplete({
       source: list_judulbuku
     });
@@ -145,17 +142,14 @@ $(document).ready(function(){
       }
     });
     if (daftar && ($('#tduser').val().length == 12)) {
-      console.log('disabled');
       $bdaftar.prop('disabled', false);
     } else {
-      console.log('not');
       $bdaftar.prop('disabled', true);
     }
   });
   $('#tduser').keyup(function() {
     if ($('#tduser').val().length == 12) {
-      $.get(window.location.origin + '/check/', {nis: $('#tduser').val()}).done(function(data) {
-        var dt = JSON.parse(data);
+      $.get(window.location.origin + '/check/', {nis: $('#tduser').val()}).done(function(dt) {
         if (dt.ada) {
           $('#tduser').parent().next('small').text(dt.ada);
           $bdaftar.prop('disabled', true);
@@ -164,7 +158,6 @@ $(document).ready(function(){
         }
       });
     } else {
-      console.log($('#tduser').parent().next('small'));
       $('#tduser').parent().next('small').text('NIS harus 12 karakter');
       $bdaftar.prop('disabled', true);
     }

@@ -75,7 +75,7 @@ function tambah() {
 	console.log(daftar_pinjaman);
 	var addrow = "<tr><td>"+infobuku['idbuku']+"<input type='hidden' name='id[]' value='"+infobuku['idbuku']+"'/></td><td>"+infobuku['isbn']+"</td><td>"+infobuku['judul']+"</td><td>"+infobuku['pengarang']+"</td><td><button class='btn btn-danger' onclick='hapus()'>hapus</button></td><tr>";
 	$tdaftar.append(addrow);
-	// $btntambah.prop('disabled', true);
+	$btntambah.prop('disabled', true);
 	$judul.val('');
 	$idbuku.val('');
 }
@@ -89,6 +89,7 @@ function hapus(e) {
 	event.currentTarget.closest('tr').remove();
 	console.log(daftar_pinjaman);
 	if ($tdaftar.find('tr').length <=1 ) {
+		$tglbatas.prop('disabled', true);
 		$btnpinjam.prop('disabled', true);
 	}
 }

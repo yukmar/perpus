@@ -1,4 +1,4 @@
-(function() {
+// (function() {
 var item = {
   prop: {
     kode: null,
@@ -6,7 +6,9 @@ var item = {
   },
   date: function() {
     var date = new Date;
-    return (date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate());
+    var month = date.getMonth().length > 1 ? date.getMonth() : '0' + date.getMonth();
+    var datenum = date.getDate().length > 1 ? date.getDate() : '0' + date.getDate();
+    return (date.getFullYear() + "-" + month + "-" + datenum);
   },
   paths: {
     check: window.location.origin + '/item-buku/cekkode'
@@ -44,7 +46,6 @@ var item = {
     this.$editBtn.add(this.$editClose).click($.proxy(this.toggleModal.bind(this), null, 'edit'));
     this.$editKode.keyup($.proxy(this.check_data.bind(this), null, {kode: this.$editKode, submit: this.$editSubmit}));
     this.$editDate.add(this.$editHarga).on("change keyup", this.check_changedvalue.bind(this));
-
     this.$editHarga.keyup($.proxy(this.isnumber.bind(this), null, this.$editHarga));
   },
   toggleModal: function(key, current) {
@@ -67,14 +68,13 @@ var item = {
       break;
     }
   },
-  check_data: function(act, current) {
+  check_data: async function(act, current) {
     var $kode = act.kode;
     var $submit = act.submit;
     var ini = this;
 
     if ($kode.val().length == 4) {
-      $.get(this.paths.check, {kode: $kode.val()}).done(function(data) {
-        var dt = JSON.parse(data);
+      await $.get(this.paths.check, {kode: $kode.val()}).done(function(dt) {
         if (dt.ada) {
           if ((ini.prop.kode) && (ini.prop.kode == $kode.val())) {
             $submit.prop('disabled', false);
@@ -86,14 +86,13 @@ var item = {
             ini.prop.kode_stat = true;
           }
         } else {
-          $submit.prop('disabled', false);
           $kode.parent().next('small').text('');
           ini.prop.kode_stat = false;
         }
       });
     } else {
       $submit.prop('disabled', true);
-      $kode.parent().next('small').text('');
+      $kode.parent().next('small').text('Kode buku harus 4 karakter');
       ini.prop.kode_stat = true;
     }
   },
@@ -108,8 +107,10 @@ var item = {
     if (isNaN($harga.val())) {
       $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', true);
     } else {
-      if(this.filled($harga.parents(":eq(1)"))){
-        $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', false);
+      if(this.filled($harga.parents(":eq(1)")) && ($harga.val() > 0)){
+        if ((this.prop.kode_stat == false)) {
+          $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', false);
+        }
       } else {
         $harga.parents(":eq(1)").find("button[type='submit']").prop('disabled', true);
       }
@@ -131,4 +132,4 @@ var item = {
 
 item.init();
 
-})();
+// })();

@@ -8268,7 +8268,7 @@ header {
   background-color: #FFA740;
   color: #fff;
   font-size: 1.2rem;
-  padding: 0.8rem 1rem;
+  padding: 0.49rem 1rem;
 }
 
 .split__center .search input[type=search] {
@@ -8630,6 +8630,10 @@ input[data-function*=swipe]:checked ~ .sidebar .menu li {
   border-bottom: 1px solid #F2F2F2;
   margin-bottom: 0.5rem;
   margin-top: 2rem;
+}
+
+.container-search {
+  min-height: 42vh;
 }
 
 /*# sourceMappingURL=custom.css.map */

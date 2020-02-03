@@ -3,13 +3,22 @@ var $ttagihan = $('#table-tagihan');
 var $stotal = $('#span-total');
 
 function cek_nis() {
-	$.get(window.location.origin + '/pengembalian/cek-siswa/?no=' + $tnis.val()).done(function(data) {
+	var nis = $tnis.val().replace(/\s/g, '');
+	var ini = event;
+	var i = false;
+	// event.preventDefault();
+	$.get(window.location.origin + '/pengembalian/cek-siswa/?nis=' + nis).done(function(data) {
 		if (data == 'ada') {
-			alert("ada");
+			// $.post(window.location.origin + '/pengembalian/cek-siswa/', {txtnis: nis});
+			i = true;
 		} else {
-			alert("Nomor Induk Siswa tidak terdaftar");
+			$('#form-kembali').find("input:first").next('small').text('NIS tidak terdaftar');
+			// ini.preventDefault();
+			i = false;
 		}
+		return i;
 	});
+	// console.log(i);
 }
 
 function kembalidanbayar() {
@@ -39,5 +48,8 @@ $(document).ready(function(e) {
 				$stotal.text(result);
 			}
 		}
+	});
+	$('#form-kembali').submit(function() {
+		// return cek_nis();
 	});
 });
