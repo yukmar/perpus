@@ -48,7 +48,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
-SetEnv CI_ENV production
 */
 $route['default_controller'] = 'dashboard/landing';
 $route['404_override'] = '';
