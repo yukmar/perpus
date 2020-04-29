@@ -19,7 +19,7 @@ class Genre extends CI_Controller
 		redirect(site_url('manage-buku'));
 	}
 
-	public function editgenre()
+	public function updategenre()
 	{
 		$idgenre = $this->input->post('nogenre');
 		$namagenre = $this->input->post('editgenre');

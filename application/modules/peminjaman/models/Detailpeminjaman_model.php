@@ -109,18 +109,6 @@ class Detailpeminjaman_model extends CI_Model
 	 * mengambil semua data dari tabel buku dengan nama atribut/field yang telah diubah
 	 * @return array [description]
 	 */
-	private function all()
-	{
-		$result_set = $this->db->get($this->table)->result();
-		$data = array();
-		foreach ($result_set as $key => $value) {
-			$this->id = $value->{$this->field_id};
-			$this->idbuku = $value->{$this->field_idbuku};
-			$this->idpeminjaman = $value->{$this->field_idpeminjaman};
-			$data[] = $this->reconstruct();
-		}
-		return $data;
-	}
 
 	private function search_data($field, $value_search, $returnfield = null)
 	{

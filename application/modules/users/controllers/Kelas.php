@@ -25,7 +25,7 @@ class Kelas extends CI_Controller
 		echo json_encode($result[0]);
 	}
 
-	public function addkelas()
+	public function create()
 	{
 		$kelas = $this->input->post('newkelas');
 		$result = $this->kelas_m->insert($kelas);
@@ -33,7 +33,7 @@ class Kelas extends CI_Controller
 		redirect(site_url('manage-user'));
 	}
 
-	public function editkelas()
+	public function update()
 	{
 		$nokelas = $this->input->post('nokelas');
 		$kelas = $this->input->post('editkelas');
@@ -42,7 +42,7 @@ class Kelas extends CI_Controller
 		redirect(site_url('manage-user'));
 	}
 
-	public function deletekelas()
+	public function delete()
 	{
 		$kelas = $this->input->get('k');
 		$result = $this->kelas_m->delete($kelas);

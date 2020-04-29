@@ -72,10 +72,10 @@ $route['manage-user/edit'] = 'users/kelola_users/update';
 $route['manage-user/delete'] = 'users/kelola_users/delete';
 $route['manage-user/check-siswa'] = 'users/user/checknis';
 $route['manage-user/check-petugas'] = 'users/user/checknip';
-$route['manage-user/add-kelas'] = 'users/kelas/addkelas';
+$route['manage-user/add-kelas'] = 'users/kelas/create';
 $route['manage-user/check-kelas'] = 'users/kelas/searchkelas';
-$route['manage-user/delete-kelas'] = 'users/kelas/deletekelas';
-$route['manage-user/edit-kelas'] = 'users/kelas/editkelas';
+$route['manage-user/delete-kelas'] = 'users/kelas/delete';
+$route['manage-user/edit-kelas'] = 'users/kelas/update';
 
 // admin manage data books
 $route['manage-buku'] = 'buku/buku';
@@ -86,7 +86,7 @@ $route['manage-buku/daftar_isbn'] = 'buku/buku/daftar_isbn';
 // genre
 $route['manage-buku/add-genre'] = 'buku/genre/addgenre';
 $route['manage-buku/delete-genre'] = 'buku/genre/deletegenre';
-$route['manage-buku/edit-genre'] = 'buku/genre/editgenre';
+$route['manage-buku/edit-genre'] = 'buku/genre/updategenre';
 
 $route['manage-buku/search'] = 'buku/pengarang/search_pengarang';
 $route['manage-buku/daftar_pengarang'] = 'buku/pengarang/daftar_pengarang';
