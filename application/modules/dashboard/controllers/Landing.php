@@ -33,7 +33,7 @@ class Landing extends CI_Controller
 			case 'petugas':
 				$data['list_buku'] = $this->item_m->get_allhistory();
 				$data['list_item'] = $this->item_m->get_allitem();
-				$this->load->view('Petugas_view', $data);
+				$this->load->view('users/admin/Petugas_view', $data);
 				break;
 			case 'siswa':
 				redirect('siswa');

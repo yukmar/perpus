@@ -8569,6 +8569,7 @@ input[data-function*=swipe]:checked ~ .sidebar .menu li {
 .btn-menu:hover {
   color: yellow;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .section-break {

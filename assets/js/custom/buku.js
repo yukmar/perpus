@@ -1,235 +1,138 @@
-var modalLogin = document.querySelector(".loginform");
-var modalDaftar = document.querySelector(".daftarform");
-var $tisbn = $('#tisbn');
-var $tjudul = $('#tjudul');
-var $tpengarang = $('#trpengarang');
-var $tpenerbit = $('#tpenerbit');
-var $finfo = $('#forms-infobuku');
-var $tharga = $('#tharga');
-var $tterbitan = $('#tterbitan');
-var $tableinfo = $('#table-info');
-var i = 2;
-var daftar_pengarang = null;
-var daftar_isbn = null;
-var $warning = "<tr id='warningitem'><td></td><td>silahkan daftarkan info isbn terlebih dahulu</td></tr>";
-var olddata = null;
+(function() {
+var buku = {
+	temp: {
+		isbn: null,
+		filled: 0
+	},
+	paths: {
+		search: window.location.origin + '/manage-buku/search',
+		create: window.location.origin + '/manage-buku/add',
+		edit: window.location.origin + '/manage-buku/edit/?isbn='
+	},
+	init: function(){
+		this.events.table_buku = this.events.table_buku.bind(this);
+		this.events.form = this.events.form.bind(this);
+		this.events.edit = this.events.edit.bind(this);
+		this.events.reset = this.events.reset.bind(this);
+		this.check.is_empty = this.check.is_empty.bind(this);
 
-var temp = null;
-
-function toggleModal(key) {
-  switch(key){
-    case 'login':
-      modalLogin.classList.toggle("modal__login-show");
-      break;
-
-    case 'daftar':
-      modalDaftar.classList.toggle("modal__daftar-show");
-      $('#tedgenre').val(event.target.closest('tr').children[1].innerHTML);
-      $('#hidgenre').val(event.target.getAttribute('data-genre'));
-      break;
-    default:
-      break;
-  }
-}
-
-$(document).ready(function(){
-	$.get(window.location.origin + '/manage-buku/daftar_pengarang').done(function(data) {
-		daftar_pengarang = JSON.parse(data);
-		$('.tpengarang').autocomplete({
-			source: daftar_pengarang
-		});
-	});
-	$.get(window.location.origin + '/manage-buku/daftar_isbn').done(function(data) {
-		daftar_isbn = JSON.parse(data);
-		$('#itemisbn').autocomplete({
-			source: daftar_isbn,
-			select: function (event,ui) {
-				$('#btnitem').prop('disabled', false);
-			},
-		});
-	});
-	$('#table-genre').DataTable();
-	$('#forms-infobuku').submit(function() {
-		$(this).find('small').text('');
-
-		var newisbn = false;
-		if ($tisbn.val().length !== 13) {
-			console.log($tisbn.val().length);
-			event.preventDefault();
-			$tisbn.next('small').text('ISBN harus 13 angka');
-		} else if($tisbn.val().length == 13 && isNaN($tisbn.val())) {
-			event.preventDefault();
-			$tisbn.next('small').text('ISBN bukan angka');
-		}
-		if ($(this).data('role') == 'tambah') {
-			for (var i = 0; i < daftar_isbn.length; i++) {
-				if ($tisbn.val() == daftar_isbn[i]) {
-					newisbn = false;
-					break;
+		this.doms();
+		this.events.table_buku();
+		this.events.form();
+		this.events.edit();
+		this.events.reset();
+	},
+	doms: function(){
+		this.$form = $('#forms-infobuku');
+		this.$form.input = $('#forms-infobuku').find('input, textarea');
+		this.$submit = $('#btninfosubmit');
+		this.$table_buku = $('#table-info');
+		this.$edit = $('.btn-edit');
+		this.$reset = $("button[type='reset']");
+	},
+	events: {
+		table_buku: function() {
+			this.$table_buku.DataTable();
+		},
+		reset: function() {
+			var ini = this;
+			this.$reset.click(function() {
+				ini.events.form();
+			});
+		},
+		form: async function(){
+			var ini = this;
+			this.$form.prop('action', this.paths.create);
+			this.$submit.prop('disabled', true);
+			this.$submit.text('tambah');
+			this.$form.input.each(function(index, element){
+				if (index == 0){
+					$(element).keyup(async function() {
+						if ($(element).val().length == 13) {
+							await $.get(ini.paths.search, {isbn: $(element).val()})
+							.done(function(result) {
+								if (!result) {
+									ini.temp.isbn = $(element).val();
+								}
+								ini.check.is_empty(index, element);
+							});
+						}
+						else {
+							ini.temp.isbn = null;
+							ini.check.is_empty(index, element);
+						}
+					});
+				} else if (index == 4) {
+					$(element).prop('disabled', true);
+					$(element).keyup(function() {
+						if ($(this).val().length <= 4 && Number.isInteger(Number($(this).val().trim())) ) {
+							ini.check.is_empty(index, element);
+						} else {
+							$(ini.$form.input[index + 1]).prop('disabled', true);
+						}
+					})
 				} else {
-					newisbn = true;
+					$(element).prop('disabled', true);
+					$(element).keyup(function() {
+						if ($(ini.$form.input[0]).val()) {
+							ini.temp.isbn = $(ini.$form.input[0]).val();
+						}
+						ini.check.is_empty(index, element);
+					});
 				}
-			}
-		} else {
-			console.log('edit');
-			if ($tisbn.val() == $tisbn.data('old')) {
-				newisbn = true;
-			} else {
-				console.log('else');
-				for (var i = 0; i < daftar_isbn.length; i++) {
-					if ($tisbn.val() == daftar_isbn[i]) {
-						newisbn = false;
-						break;
-					} else {
-						newisbn = true;
+			});
+		},
+		edit: function() {
+			var ini = this;
+			this.$edit.click(function(current) {
+				ini.$form.input.each(function(index, element) {
+					var value = $(current.target).closest('tr').find('td:eq('+ (index + 1) +')').text();
+					$(element).val(value);
+					if (index == 0) {
+						ini.temp.isbn = value;
+						ini.$form.prop('action', ini.paths.edit + value);
+					}
+					if (!value) {
+						ini.temp.isbn = null;
+					}
+					ini.check.is_empty(index, element);
+				});
+				$(ini.$submit).text('edit');
+			});
+		}
+	},
+	check: {
+		is_empty: async function(index, element) {
+			var ini = this;
+			if (typeof this.$form.input[index + 1] !== 'undefined') {
+				if ($(element).val() && this.temp.isbn) {
+					for (var i = index + 1; i < this.$form.input.length; i++) {
+						$(this.$form.input[i]).prop('disabled', false);
+						if (!$(this.$form.input[i]).val()) {
+							break;
+						}
+					}
+				} else {
+					for (var i = index+1; i < this.$form.input.length; i++) {
+						$(this.$form.input[i]).prop('disabled', true);
 					}
 				}
 			}
-		}
-		console.log(newisbn);
-		
-		if (!newisbn) {
-			event.preventDefault();
-			console.log(newisbn);
-			$tisbn.next('small').text('ISBN telah ada');
-		}
-		submitinfo();
-		$(this).find("input[name='txtpengarang[]']").each(function() {
-			if ($(this).val().length == 0) {
-				event.preventDefault();
-				console.log($(this).parent());
-				temp = $(this);
-				$(this).parent().next().next('small').text('Tidak boleh kosong');
-			}
-		});
-	});
-	$tableinfo.DataTable();
-});
-
-function submitinfo() {
-	var filled = false;
-		if(!$tisbn.val()) {
-			console.log(1);
-			event.preventDefault();
-			temp = $(this);
-			$tisbn.next('small').text("Tidak boleh kosong");
-		}
-		if (($tterbitan.val().length !== 4) || isNaN($tterbitan.val())) {
-			console.log(2);
-			event.preventDefault();
-			$tterbitan.next('small').text("Tahun tidak valid");
-		}
-	$('#form-infobuku input, textarea').each(function() {
-		console.log($(this));
-		if ($(this).val()) {
-			filled = true;
-		} else {
-			filled = false;
-			$(this).next('small').text("Tidak boleh kosong");
-		}
-	});
-	if (filled) {
-		var $title = $('#form-infobuku caption').text().split(" ");
-		if ($title[0] == "TAMBAH") {
-			var isbnexist = false;
-			for (var i = 0; i < daftar_isbn.length; i++) {
-				if ($('#tisbn').val() == daftar_isbn[i]) {
-					isbnexist = true;
+			this.temp.filled = 0;
+			this.$form.input.each(function(idx, el) {
+				if ($(el).val()) {
+					ini.temp.filled++;
 				}
-			}
-			if (isbnexist) {
-				event.preventDefault();
-				return false;
+			});
+			if (this.temp.filled == this.$form.input.length) {
+				this.$submit.prop('disabled', false);
 			} else {
-				return true;
+				this.$submit.prop('disabled', true);
 			}
-		} else {
-			return true;
+
 		}
-	} else {
-		event.preventDefault();
-		return false;
 	}
-}
+};
 
-function editinfo(no) {
-	var $selected_row = event.target.closest('tr');
-	var isbn = $selected_row.children[1].innerText;
-	var judul = $selected_row.children[2].innerText;
-	var terbitan = $selected_row.children[5].innerHTML;
-	var pengarang = null;
-	$finfo.data('role', 'edit');
-	$tisbn.data('old', isbn);
-
-	resetpengarang();
-
-	$.get(window.location.origin + '/manage-buku/search/?isbn=' + isbn).done(function(data) {
-		pengarang = JSON.parse(data);
-		$('.tpengarang').val(pengarang[0]);
-		if (pengarang.length > 1) {
-			for (var x = 1; x < pengarang.length; x++) {
-				var el = "<div class='form-inline mb-2'><input type='text' class='tpengarang form-control col-sm-9' name='txtpengarang[]' value='"+pengarang[x]+"'><button class='btn btn-danger ml-2' onclick='removepengarang()'>hapus</button></div>";
-				$(el).insertAfter($('.tpengarang').closest('div').last());
-			}
-		}
-		$('.tpengarang').autocomplete({
-			source: daftar_pengarang
-		});
-	olddata = {
-		isbn: isbn,
-		judul: judul,
-		pengarang: pengarang,
-		tahun: terbitan,
-		penerbit: no
-	};
-	var input = $('<input>').attr('type', 'hidden').attr('name', 'old').attr('id', 'txold').val(JSON.stringify(olddata));
-	$finfo.append(input);
-	$("tr:empty").remove();
-	});
-
-	$('#caption-buku').text('Form Edit Info Buku');
-	$finfo.attr('action', window.location.origin + "/manage-buku/edit/");
-	$finfo.find('button').eq(1).text('edit');
-
-	$tisbn.val(isbn);
-	$tjudul.val(judul);
-	$tpenerbit.val(no);
-	$tterbitan.val(terbitan);
-	$finfo.find("select[name='genre']").val(event.currentTarget.getAttribute('data-genre'));
-}
-
-function resetforminfo() {
-	resetpengarang();
-	$('#caption-buku').text('Form Tambah Info Buku');
-	$finfo.attr('action', window.location.origin + "/manage-buku/add");
-	$finfo.find('button').eq(1).text('tambah');
-}
-
-function resetpengarang() {
-	if ($('input[name^="txtpengarang"]').length > 1) {
-		$('input[name^="txtpengarang"]').closest('div').not(':first').remove();
-		i = 2;
-	}
-	if ($('input[type^="hidden"]').length >= 1) {
-		$('input[type^="hidden"]').remove();
-	}
-	$("tr:empty").remove();
-	$('.tpengarang').autocomplete({
-		source: daftar_pengarang
-	});
-}
-
-function addpengarang(e) {
-	event.preventDefault();
-	var el = "<div class='form-inline mb-2'><input type='text' class='tpengarang form-control col-sm-9' name='txtpengarang[]'><button class='btn btn-danger ml-2' onclick='removepengarang()'>hapus</button></div>";
-	$(el).insertAfter($('.tpengarang').closest('div').last());
-	$('.tpengarang').autocomplete({
-		source: daftar_pengarang
-	});
-	return false;
-}
-
-function removepengarang(e) {
-	event.preventDefault();
-	event.target.closest('div').remove();
-}
+buku.init();
+})();

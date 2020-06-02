@@ -83,25 +83,7 @@ $route['manage-buku/add'] = 'buku/buku/create';
 $route['manage-buku/edit'] = 'buku/buku/update';
 $route['manage-buku/delete'] = 'buku/buku/delete';
 $route['manage-buku/daftar_isbn'] = 'buku/buku/daftar_isbn';
-// genre
-$route['manage-buku/add-genre'] = 'buku/genre/addgenre';
-$route['manage-buku/delete-genre'] = 'buku/genre/deletegenre';
-$route['manage-buku/edit-genre'] = 'buku/genre/updategenre';
-
-$route['manage-buku/search'] = 'buku/pengarang/search_pengarang';
-$route['manage-buku/daftar_pengarang'] = 'buku/pengarang/daftar_pengarang';
-
-// admin manage data penerbit
-$route['manage-penerbit'] = 'buku/penerbit';
-$route['manage-penerbit/add'] = 'buku/penerbit/add';
-$route['manage-penerbit/edit'] = 'buku/penerbit/update';
-$route['manage-penerbit/delete'] = 'buku/penerbit/delete';
-
-$route['manage-pengarang'] = 'buku/pengarang';
-$route['manage-pengarang/add'] = 'buku/pengarang/create';
-$route['manage-pengarang/edit'] = 'buku/pengarang/update';
-$route['manage-pengarang/delete'] = 'buku/pengarang/delete';
-$route['manage-pengarang/cek'] = 'buku/pengarang/checknama';
+$route['manage-buku/search'] = 'buku/buku/search';
 
 // admin item buku
 $route['item-buku'] = 'buku/item_buku';

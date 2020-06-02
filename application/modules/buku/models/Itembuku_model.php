@@ -31,9 +31,6 @@ class Itembuku_model extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(array(
-			'buku/Detailpengarang_model' => 'detpengarang_m',
-		));
 	}
 
 	/**

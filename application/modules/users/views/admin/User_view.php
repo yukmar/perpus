@@ -188,8 +188,6 @@
 	    <li><a href="<?=site_url('pengembalian')?>">Pengembalian</a></li>
 	    <li><a href="<?=site_url('manage-buku')?>">Data Buku</a></li>
 	    <li><a href="<?=site_url('manage-user')?>">Data User</a></li>
-	    <li><a href="<?=site_url('manage-penerbit')?>">Data Penerbit</a></li>
-	    <li><a href="<?=site_url('manage-pengarang')?>">Data Pengarang</a></li>
 	  </nav>
 	</div>
 </div>

@@ -12,9 +12,6 @@ class Item_buku extends CI_Controller
 		$this->load->model(array(
 			'buku/Itembuku_model' => 'item_m',
 			'buku/Buku_model' => 'buku_m',
-			'buku/Pengarang_model' => 'pengarang_m',
-			'buku/Detailpengarang_model' => 'detpengarang_m',
-			'buku/Penerbit_model' => 'penerbit_m',
 			'peminjaman/Detailpeminjaman_model' => 'detpinjam_m',
 			'peminjaman/Peminjaman_model' =>'peminjaman_m'
 		));
@@ -33,11 +30,11 @@ class Item_buku extends CI_Controller
 		}
 		$infobuku = $this->buku_m->search('isbn', $isbn)[0];
 		$data['item'] = $this->item_m->search('isbn', $isbn);
-		$data['pengarang'] = ($this->detpengarang_m->search('isbn', $isbn))? implode(', ',$this->detpengarang_m->get_set($isbn)) : "";
 		$data['isbn'] = $isbn;
 		$data['judul'] = $infobuku['judul'];
 		$data['tahun'] = $infobuku['tahunterbit'];
-		$data['penerbit'] = $this->penerbit_m->search('id', $infobuku['idpenerbit'], 'nama')[0];
+		$data['pengarang'] = $infobuku['pengarang'];
+		$data['penerbit'] = $infobuku['penerbit'];
 
 		if ($data['item']) {
 			foreach ($data['item'] as $key => $value) {

@@ -1,4 +1,4 @@
-<?php $this->load->view('header_view'); ?>
+<?php $this->load->view('base_template/admin/header_view'); ?>
 <div class="containers">
 	<input data-function="swipe" id="swipe" type="checkbox">
   <label data-function="swipe" for="swipe"><i class="fa">&#xf057;</i></label>
@@ -85,12 +85,10 @@
 	    <li><a href="<?=site_url('pengembalian')?>">Pengembalian</a></li>
 	    <li><a href="<?=site_url('manage-buku')?>">Data Buku</a></li>
 	    <li><a href="<?=site_url('manage-user')?>">Data User</a></li>
-	    <li><a href="<?=site_url('manage-penerbit')?>">Data Penerbit</a></li>
-	    <li><a href="<?=site_url('manage-pengarang')?>">Data Pengarang</a></li>
 	  </nav>
 	</div>
 </div>
-<?php $this->load->view('footer_view.php');?>
+<?php $this->load->view('base_template/admin/footer_view.php');?>
 	<script src="<?=base_url('assets/js/')?>jquery-3.4.1.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>owl.carousel.min.js"></script>
 	<script src="<?=base_url('assets/js/')?>jquery-ui-1.12.1/jquery-ui.min.js"></script>

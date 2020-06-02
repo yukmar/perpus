@@ -1,4 +1,4 @@
-<?php $this->load->view('header_view'); ?>
+<?php $this->load->view('base_template/frontpage/header_view'); ?>
     <div class="nav nav-pad">
         <div class="nav__menu">
             <a href="<?=site_url()?>" class="nav__menu-item">Home</a>
@@ -36,16 +36,16 @@
                     <td><?=$key+1?></td>
 										<td><?=$value['isbn']?></td>
 										<td><?=$value['judul']?></td>
-										<td><?=$value['pengarang']?></td>
-										<td><?=$value['penerbit']?></td>
-										<td><?=$value['eksemplar']?></td>
+                    <td><?=$value['pengarang']?></td>
+                    <td><?=$value['penerbit']?></td>
+                    <td><?=$value['eksemplar']?></td>
                 </tr>
                 <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
-    <?php $this->load->view('footer_view.php');?>
+    <?php $this->load->view('base_template/frontpage/footer_view.php');?>
     <div class="modal__login loginform">
         <div class="modal__login-content">
             <span class="modal__login-close" onclick="toggleModal('login')">×</span>

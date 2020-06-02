@@ -28,6 +28,6 @@ class Katalog extends CI_Controller
 		$data['kelas'] = $this->kelas_m->get_all();
 		$data['judul'] = $judul;
 		$data['hasil'] = $this->buku_m->search_word($judul);
-		$this->load->view('dashboard/Search_view', $data);
+		$this->load->view('buku/Search_view', $data);
 	}
 }

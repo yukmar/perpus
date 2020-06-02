@@ -1,4 +1,4 @@
-<?php $this->load->view('header_view');?>
+<?php $this->load->view('base_template/frontpage/header_view');?>
         <div class="nav-pad">
           <div class="search-gap"></div>
           <div class="section-break">
@@ -48,7 +48,7 @@
         </div>
         
     </div>
-    <?php $this->load->view('footer_view.php');?>
+    <?php $this->load->view('base_template/frontpage/footer_view');?>
     <div class="modal__login loginform">
         <div class="modal__login-content">
             <span class="modal__login-close" onclick="toggleModal('login')">×</span>
