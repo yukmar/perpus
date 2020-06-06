@@ -28,7 +28,7 @@
               </tr>
               <tr>
                 <td>Penerbit </td>
-                <td>:<?=$info->namapenerbit?></td>
+                <td>:<?=$info->penerbit?></td>
               </tr>
               <tr>
                 <td>Tahun Terbit </td>
